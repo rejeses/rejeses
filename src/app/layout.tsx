@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/general/navigation/navigation";
 import Footer from "@/components/general/footer/footer";
@@ -9,8 +8,13 @@ import Scroll_to_top from "@/components/general/bact_to_top/scroll_to_top";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Script from "next/script";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const bricolage_grotesque = localfont({
   src: [
@@ -27,7 +31,25 @@ const bricolage_grotesque = localfont({
       weight: "200",
     },
   ],
-  variable: "--font-bricolage-grotesque",
+  variable: "--font-bricolage_grotesque",
+});
+
+const aller = localfont({
+  src: [
+    {
+      path: "../../public/fonts/aller/Aller_Std_Bd.ttf",
+      weight: "700",
+    },
+    {
+      path: "../../public/fonts/aller/Aller_Std_Bd.ttf",
+      weight: "500",
+    },
+    {
+      path: "../../public/fonts/aller/Aller_Std_Rg.ttf",
+      weight: "200",
+    },
+  ],
+  variable: "--font-aller",
 });
 
 const baseUrl =
@@ -98,7 +120,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.className} ${bricolage_grotesque.variable} max-w-[1440px] m-auto`}
+        className={`${inter.variable} ${aller.variable} ${bricolage_grotesque.variable} max-w-[1440px] m-auto`}
       >
         <ToastContainer />
         <PaymentProvider>

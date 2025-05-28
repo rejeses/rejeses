@@ -4,6 +4,10 @@ export async function generateStaticParams() {
   return [{ slug: "training" }];
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   return <Trainin_page />;
 }

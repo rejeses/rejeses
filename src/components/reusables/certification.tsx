@@ -129,7 +129,9 @@ export default function Certification() {
             }}
             onClick={() => handleCertificationClick("pmp-certification")}
           >
-            <div className={`flex justify-center items-center min-h-[320px] md:min-h-0`}>
+            <div
+              className={`flex justify-center items-center min-h-[320px] md:min-h-0`}
+            >
               <div
                 className={`lg:w-[300px] md:w-[200px] w-[240px] ${
                   loadingStates.image2 ? "blur-2xl" : "blur-none"
@@ -184,7 +186,9 @@ export default function Certification() {
             }}
             onClick={() => handleCertificationClick("pmi-certification")}
           >
-            <div className={`flex justify-center items-center min-h-[320px] md:min-h-0`}>
+            <div
+              className={`flex justify-center items-center min-h-[320px] md:min-h-0`}
+            >
               <div
                 className={`lg:w-[300px] md:w-[200px] w-[240px] ${
                   loadingStates.image3 ? "blur-2xl" : "blur-none"
@@ -226,14 +230,20 @@ export default function Certification() {
 
       {decodedPathname === "/" && (
         <div className="w-full flex justify-center items-center">
-          <span className="mx-2 inline-flex lg:w-[12%] md:w-[25%] justify-center items-center bg-[#89C13E] py-0 rounded-[.3rem]">
+          <motion.span
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 5px 15px rgba(137, 193, 62, 0.4)",
+            }}
+            className="mx-2 inline-flex lg:w-[12%] md:w-[25%] justify-center items-center bg-[#89C13E] py-0 rounded-[.3rem]"
+          >
             <Link
               href="/training#upcoming-training"
               className="bg-[#89C13E] text-white px-6 inline-flex w-full h-full justify-center items-center py-4 rounded-[.3rem] font-bricolage_grotesque transition_button4"
             >
               ENROLL NOW
             </Link>
-          </span>
+          </motion.span>
         </div>
       )}
     </section>

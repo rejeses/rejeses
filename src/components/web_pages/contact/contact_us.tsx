@@ -172,8 +172,8 @@ export default function ContactUs() {
                     <motion.button
                       type="submit"
                       className="inline-flex w-full bg-[#89C13E] justify-center rounded-md border 
-                      border-transparent bg-primary-green px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-[#89C13E]/90 
-                      focus:outline-none focus:ring-2 focus:ring-[#89C13E] focus:ring-offset-2 sm:text-sm transition ease-in-out duration-500"
+                      border-transparent bg-primary-green px-4 py-3 text-base font-medium text-white shadow-xs hover:bg-[#89C13E]/90 
+                      focus:outline-hidden focus:ring-2 focus:ring-[#89C13E] focus:ring-offset-2 sm:text-sm transition ease-in-out duration-500"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={route_back}
@@ -198,7 +198,7 @@ export default function ContactUs() {
                       value={formValues.name}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-none 
+                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-hidden 
     focus:ring-2 focus:ring-[#89C13E] transition ease-in-out duration-500"
                     />
                     {touchedFields.name && errors.name && (
@@ -221,7 +221,7 @@ export default function ContactUs() {
                       value={formValues.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-none 
+                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-hidden 
     focus:ring-2 focus:ring-[#89C13E] transition ease-in-out duration-500"
                     />
                     {touchedFields.email && errors.email && (
@@ -244,7 +244,7 @@ export default function ContactUs() {
                       value={formValues.message}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-none 
+                      className="mt-1 block w-full rounded-md py-3 px-2 border-gray-300 shadow-md border-none outline-hidden 
     focus:ring-2 focus:ring-[#89C13E] transition ease-in-out duration-500"
                     ></textarea>
                     {touchedFields.message && errors.message && (
@@ -258,8 +258,8 @@ export default function ContactUs() {
                       type="submit"
                       disabled={isButtonDisabled}
                       className="inline-flex w-full bg-[#89C13E] justify-center items-center rounded-md border 
-                      border-transparent bg-primary-green px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-[#89C13E]/90 
-                      focus:outline-none focus:ring-2 focus:ring-[#89C13E] focus:ring-offset-2 sm:text-sm transition ease-in-out duration-500"
+                      border-transparent bg-primary-green px-4 py-3 text-base font-medium text-white shadow-xs hover:bg-[#89C13E]/90 
+                      focus:outline-hidden focus:ring-2 focus:ring-[#89C13E] focus:ring-offset-2 sm:text-sm transition ease-in-out duration-500"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

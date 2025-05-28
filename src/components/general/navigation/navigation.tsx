@@ -144,9 +144,13 @@ export default function Nav_desktop() {
             <section className="flex space-x-2">
               {linkButtons.map((button, index) =>
                 index === 0 ? (
-                  <span
+                  <motion.span
                     key={index}
                     className="mx-2 bg-[#89C13E] py-3 rounded-[.3rem]"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0px 5px 15px rgba(137, 193, 62, 0.4)",
+                    }}
                   >
                     <Link
                       className={`${button.className} lg:py-4`}
@@ -154,15 +158,20 @@ export default function Nav_desktop() {
                     >
                       {button.label.toUpperCase()}
                     </Link>
-                  </span>
+                  </motion.span>
                 ) : (
-                  <Link
-                    className={button.className}
-                    href={button.url}
+                  <motion.span
                     key={index}
+                    className="flex justify-center items-center rounded-md transition_button"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.4)",
+                    }}
                   >
-                    {button.label.toUpperCase()}
-                  </Link>
+                    <Link className={button.className} href={button.url}>
+                      {button.label.toUpperCase()}
+                    </Link>
+                  </motion.span>
                 )
               )}
             </section>
@@ -173,7 +182,7 @@ export default function Nav_desktop() {
           <div>
             <button
               onClick={handleHamburgerClick}
-              className="focus:outline-none"
+              className="focus:outline-hidden"
             >
               {!openMobileNav ? (
                 <HamburgerMenuIcon width="30px" height="30px" color="#090909" />
@@ -185,7 +194,7 @@ export default function Nav_desktop() {
             <AnimatePresence>
               {openMobileNav && (
                 <motion.div
-                  className="absolute md:top-20 top-12 left-0 w-full bg-white z-10 p-4 md:px-14 px-8"
+                  className="absolute md:top-20 top-12 left-0 w-full bg-white z-20 p-4 md:px-14 px-8"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}

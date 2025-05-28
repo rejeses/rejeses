@@ -85,7 +85,7 @@ export default function PriceCard({ data, id }: PriceCardProps) {
   return (
     <>
       {training_only && (
-        <div className="flex flex-col md:w-2/4 w-full md:h-[800px] h-auto md:mx-4 mx-0 my-2 gap-4 border border-[#DBE1E7] rounded-2xl px-8 py-6 relative shadow shadow-[#DBE1E7]">
+        <div className="flex flex-col md:w-2/4 w-full md:h-[800px] h-auto md:mx-4 mx-0 my-2 gap-4 border border-[#DBE1E7] rounded-2xl px-8 py-6 relative shadow-sm shadow-[#DBE1E7]">
           <div className="w-full h-[90%] overflow-y-auto flex flex-col gap-4 custom-scrollbar">
             <h2 className="text-2xl font-bold font-bricolage_grotesque text-[#090909]">
               {training_only.name}
@@ -165,7 +165,7 @@ export default function PriceCard({ data, id }: PriceCardProps) {
       )}
 
       {training_with_mentorship && (
-        <div className="flex flex-col md:w-2/4 w-full md:h-[800px] h-auto gap-4 px-8 py-6 border my-2 border-[#DBE1E7] rounded-2xl relative md:mx-4 mx-0 shadow-sm shadow-[#DBE1E7]">
+        <div className="flex flex-col md:w-2/4 w-full md:h-[800px] h-auto gap-4 px-8 py-6 border my-2 border-[#DBE1E7] rounded-2xl relative md:mx-4 mx-0 shadow-xs shadow-[#DBE1E7]">
           <div className="h-[90%] w-full overflow-y-auto flex flex-col gap-4 custom-scrollbar">
             <h2 className="text-2xl font-bold font-bricolage_grotesque text-[#090909]">
               {training_with_mentorship.name}

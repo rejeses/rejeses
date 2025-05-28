@@ -39,6 +39,7 @@ export async function POST(req: Request) {
       email,
       amount,
       currency,
+      participants,
     } = body;
 
     if (
@@ -73,24 +74,25 @@ export async function POST(req: Request) {
       return nodemailer.createTransport(config);
     };
 
-    const transporter = createTransporter()
-    const mailOptions = {
-      from: `"Rejeses PM Consulting" <${email1}>`,
-      to: email,
-      subject: "Course Registration Confirmation",
-      html: createCourseEmailTemplate(
-        firstName,
-        lastName,
-        courseType,
-        startDate,
-        courseSchedule,
-        courseScheduleType,
-        amount,
-        currency
-      ),
-    };
+    const transporter = createTransporter();
+    // const mailOptions = {
+    //   from: `"Rejeses PM Consulting" <${email1}>`,
+    //   to: email,
+    //   subject: "Course Registration Confirmation",
+    //   html: createCourseEmailTemplate(
+    //     firstName,
+    //     lastName,
+    //     courseType,
+    //     startDate,
+    //     courseSchedule,
+    //     courseScheduleType,
+    //     amount,
+    //     currency,
+    //     participants as { name: string; email: string }[]
+    //   ),
+    // };
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
 
     const appOwnerEmailConfirmationContent = `
     <html>
@@ -103,52 +105,67 @@ export async function POST(req: Request) {
             <p style="margin-bottom: 15px; font-size: 15px;">
               A customer has successfully paid for a course. Below are the details:
             </p>
-
+    
             <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Name:</div>
             <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${firstName} ${lastName}</div>
-
+    
             <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Type:</div>
             <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${courseType}</div>
-
+    
             ${
               !courseType.includes("Mentoring")
                 ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Start Date:</div>
-                 <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
-                   courseScheduleType === "weekend"
-                     ? formatSingleDate(courseSchedule[0])
-                     : formatSingleDate(startDate)
-                 }</div>`
+                   <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
+                     courseScheduleType === "weekend"
+                       ? formatSingleDate(courseSchedule[0])
+                       : formatSingleDate(startDate)
+                   }</div>`
                 : ""
             }
-
+    
             ${
               !courseType.includes("Mentoring")
                 ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Schedule Type:</div>
-                 <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${capitalizeCourseScheduleType(
-                   courseScheduleType
-                 )}</div>`
+                   <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${capitalizeCourseScheduleType(
+                     courseScheduleType
+                   )}</div>`
                 : ""
             }
-
+    
             ${
               !courseType.includes("Mentoring")
                 ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Days:</div>
-                 <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${formatCourseSchedule2(
-                   courseSchedule
-                 )}</div>`
+                   <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${formatCourseSchedule2(
+                     courseSchedule
+                   )}</div>`
                 : ""
             }
-
+    
             <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Amount Paid:</div>
             <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
               currency === "naira" ? "NGN" : "$"
             } ${formatPrice(amount)}</div>
-
+    
             <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Customer Email:</div>
             <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${email}</div>
+    
+            ${
+              participants &&
+              Array.isArray(participants) &&
+              participants.length > 0 && participants[0].name !== ""
+                ? `
+                  <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Participants:</div>
+                  <ul style="margin-bottom: 15px; font-size: 15px; padding-left: 20px;">
+                    ${participants
+                      .map((p) => `<li>${p.name} (${p.email})</li>`)
+                      .join("")}
+                  </ul>
+                `
+                : ""
+            }
           </div>
         </div>
-
+    
         <!-- Footer -->
         <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
           <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
@@ -162,7 +179,7 @@ export async function POST(req: Request) {
         </div>
       </body>
     </html>
-  `;
+    `;
 
     await transporter.sendMail({
       from: `Rejeses PM Consulting ${email1}`,

@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Dynamic_nav from "@/components/reusables/navigation/dynamic_nav";
 import { usePayment, useNavigation } from "@/utils/context/payment";
 import Button from "@/components/reusables/button";
 import { useRouter } from "next/navigation";
 import { formatDate } from "@/utils/reusables/functions";
+import usePromoData from "@/utils/hooks/usePromoData";
 
 export default function MentorshipPaymentSummary() {
-  const { paymentInfo, setPaymentInfo } = usePayment();
+  const { promoData } = usePromoData();
+  const { paymentInfo, setPaymentInfo, selectedType } = usePayment();
   const { isNigeria } = useNavigation();
 
   const formatTrainingOption = (text: string) => {
@@ -41,17 +43,42 @@ export default function MentorshipPaymentSummary() {
   };
 
   const renderPrice = () => {
+    const isPromo = promoData?.isPromo;
+
     if (paymentInfo.price === 0) {
       return isNigeria ? formatPrice(450000) : formatPrice(300);
-    } else {
-      return isNigeria
-        ? formatPrice(paymentInfo.price2)
-        : formatPrice(paymentInfo.price);
     }
+
+    if (isNigeria && !promoData) {
+      return formatPrice(paymentInfo.price2);
+    }
+
+    if (!isNigeria) {
+      return formatPrice(paymentInfo.price);
+    }
+
+    if (isPromo && isNigeria) {
+      const nairaPrice = promoData?.prices.naira[selectedType] ?? 0;
+      return formatPrice(nairaPrice);
+    }
+
+    if (isPromo && !isNigeria) {
+      const dollarPrice =
+        paymentInfo.promoPrices?.prices.dollar[selectedType] ?? 0;
+      return formatPrice(dollarPrice);
+    }
+
+    return "";
   };
 
   useEffect(() => {
-    if (paymentInfo.price === 0 || paymentInfo.price2 === 0) {
+    const isPromo = promoData?.isPromo;
+    if (
+      paymentInfo.price === 0 ||
+      paymentInfo.price2 === 0 ||
+      (isPromo && !promoData?.prices.naira[selectedType]) ||
+      (isPromo && !promoData?.prices.dollar[selectedType])
+    ) {
       router.push("/mentorship");
     }
   }, [paymentInfo.price, paymentInfo.price2]);

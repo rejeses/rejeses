@@ -118,7 +118,7 @@ export default function Benefits(props: UniqueComponentsProps) {
   };
 
   const buttonClasses =
-    "hidden md:flex items-center justify-center lg:w-[50px] lg:h-[50px] w-[60px] h-[60px] rounded-full bg-white bg-opacity-20 backdrop-blur-sm border border-[#DBE1E7] border-opacity-50 cursor-pointer transition-all duration-300 hover:bg-opacity-50 absolute top-[60%] shadow-md";
+    "hidden md:flex items-center justify-center lg:w-[50px] lg:h-[50px] w-[60px] h-[60px] rounded-full bg-white bg-opacity-20 backdrop-blur-xs border border-[#DBE1E7] border-opacity-50 cursor-pointer transition-all duration-300 hover:bg-opacity-50 absolute top-[60%] shadow-md";
 
   if (isMobile && width <= 767) {
     return <Mobile_benefits data={filteredData} />;
@@ -141,7 +141,7 @@ export default function Benefits(props: UniqueComponentsProps) {
           {filteredData.concat(filteredData).map((item, index) => (
             <div
               key={index}
-              className="lg:w-[30%] md:w-[45%] w-full border border-[#DBE1E7] md:mx-4 md:my-2 mx-2 my-2 rounded-2xl shadow-sm shadow-[#0000001A] flex-shrink-0"
+              className="lg:w-[30%] md:w-[45%] w-full border border-[#DBE1E7] md:mx-4 md:my-2 mx-2 my-2 rounded-2xl shadow-xs shadow-[#0000001A] shrink-0"
             >
               <GeneralCard
                 pin={item.pin}
@@ -167,7 +167,7 @@ export default function Benefits(props: UniqueComponentsProps) {
         className={`${buttonClasses} lg:left-6 left-2`}
         aria-label="Previous"
       >
-        <span className="w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[12px] border-r-[#535353]"></span>
+        <span className="w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-r-12 border-r-[#535353]"></span>
       </motion.button>
       <motion.button
         whileHover={{
@@ -182,7 +182,7 @@ export default function Benefits(props: UniqueComponentsProps) {
         className={`${buttonClasses} lg:right-6 right-2`}
         aria-label="Next"
       >
-        <span className="w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[12px] border-l-[#535353]"></span>
+        <span className="w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-l-12 border-l-[#535353]"></span>
       </motion.button>
     </section>
   );

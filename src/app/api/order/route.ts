@@ -11,6 +11,7 @@ import {
   generatePromoCode,
 } from "@/app/services/repository/promocode/promocode";
 import { OrderType } from "../../services/repository/order/order";
+import { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
   try {
@@ -90,6 +91,7 @@ export async function POST(req: Request) {
       courseScheduleType,
       promocode,
       status,
+      participants,
     } = requestBody;
 
     let courseSchedule;
@@ -116,10 +118,12 @@ export async function POST(req: Request) {
       email,
       amount,
       status: "pending" as StatusType,
+      participants,
     };
+    const { participants: participatingUsers, ...neededFields } = baseFields;
 
     if (
-      Object.values(baseFields).some((field) => field == null || field === "")
+      Object.values(neededFields).some((field) => field == null || field === "")
     ) {
       return Response.json(
         { message: "Missing or empty body parameters" },
@@ -196,7 +200,7 @@ export async function PUT(req: Request) {
       status,
     } = requestBody;
 
-    const validFields: Partial<OrderType2> = {};
+    const validFields: Partial<Omit<Prisma.OrderUpdateInput, "id" | "updatedAt" | "createdAt">>= {};
     const refinedStatus = status?.toLowerCase() as StatusType;
 
     if (firstName !== undefined) validFields.firstName = firstName;

@@ -1,8 +1,54 @@
-/* @import url("/assets/styles/fonts.css"); */
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+
+  --font-bricolage_grotesque: var(--font-bricolage-grotesque);
+  --font-aller: var(--font-aller);
+  --font-inter: var(--font-inter);
+
+  --animate-slide-down: slideDown 300ms ease-out;
+  --animate-slide-up: slideUp 300ms ease-out;
+
+  @keyframes slideDown {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      height: var(--radix-accordion-content-height);
+    }
+    100% {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 :root {
   --background-general: #ffffff;
@@ -19,11 +65,18 @@ html {
 
 body {
   font-family: var(--font-inter);
-  font-weight: 400;
   color: rgb(var(--text-general));
   background: rgb(var(--background-general));
   overflow-x: hidden;
   min-height: -webkit-fill-available;
+}
+
+.font-bricolage_grotesque {
+  font-family: var(--font-bricolage_grotesque);
+}
+
+.font-aller {
+  font-family: var(--font-aller);
 }
 
 .bg-img {

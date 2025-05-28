@@ -31,7 +31,7 @@
     {
       "label": "Book Session",
       "url": "/book-session",
-      "className": "text-white px-2 py-3 transition_button  border border-[#DBE1E7] rounded-[.3rem]"
+      "className": "text-[#89C13E] hover:text-white text-center px-2 py-3 border border-[#DBE1E7] rounded-[.3rem]"
     }
   ]
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,6 +16,7 @@
     "@prisma/client": "^5.17.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-switch": "^1.2.2",
     "@tanstack/react-query": "^5.51.21",
     "@types/axios": "^0.14.0",
     "axios": "^1.7.3",
@@ -23,11 +24,12 @@
     "framer-motion": "^11.3.6",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "next": "^14.2.18",
+    "next": "15.1.8",
     "nodemailer": "^6.9.16",
-    "react": "^18",
+    "radix-ui": "^1.3.2",
+    "react": "19.1.0",
     "react-calendly": "^4.3.1",
-    "react-dom": "^18",
+    "react-dom": "19.1.0",
     "react-swipeable": "^7.0.1",
     "react-toastify": "^10.0.6",
     "react-typewriter-effect": "^1.1.0",
@@ -35,17 +37,23 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/prop-types": "^15.7.14",
+    "@types/react": "19.1.5",
+    "@types/react-dom": "19.1.5",
     "@types/uuid": "^10.0.0",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "15.1.8",
     "postcss": "^8",
     "prisma": "^5.17.0",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
+  },
+  "overrides": {
+    "@types/react": "19.1.5",
+    "@types/react-dom": "19.1.5"
   }
 }

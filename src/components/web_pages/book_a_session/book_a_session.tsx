@@ -193,7 +193,7 @@ const BookSessionPage = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Your Full Name"
-                      className="bg-transparent w-full text-white placeholder-white/50 outline-none"
+                      className="bg-transparent w-full text-white placeholder-white/50 outline-hidden"
                     />
                   </div>
                 </div>
@@ -208,7 +208,7 @@ const BookSessionPage = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="your.email@example.com"
-                      className="bg-transparent w-full text-white placeholder-white/50 outline-none"
+                      className="bg-transparent w-full text-white placeholder-white/50 outline-hidden"
                     />
                   </div>
                 </div>
@@ -223,7 +223,7 @@ const BookSessionPage = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="(123) 456-7890"
-                      className="bg-transparent w-full text-white placeholder-white/50 outline-none"
+                      className="bg-transparent w-full text-white placeholder-white/50 outline-hidden"
                     />
                   </div>
                 </div>
@@ -237,7 +237,7 @@ const BookSessionPage = () => {
                       name="service"
                       value={formData.service}
                       onChange={handleInputChange}
-                      className="bg-transparent w-full text-white outline-none appearance-none"
+                      className="bg-transparent w-full text-white outline-hidden appearance-none"
                     >
                       <option value="" className="text-gray-800">
                         Select a Service

@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import SkeletalLoader from "@/components/reusables/animation/skeletol_loader";
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Services() {
   const [imageLoading1, setImageLoading1] = useState<boolean>(true);
@@ -50,9 +51,9 @@ export default function Services() {
             </h1>
             <p className="lg:text-[24px] lg:max-w-[95%] text-wrap text-[16px]">
               Our 35-hour training program is excellently designed to help you
-              master the skills needed to become a seasoned project manager. 95% of those who train with us 
-              pass the prestigious Project Management Professional (PMP)
-              certification examination, on their first try!
+              master the skills needed to become a seasoned project manager. 95%
+              of those who train with us pass the prestigious Project Management
+              Professional (PMP) certification examination, on their first try!
             </p>
 
             <span className="text-white">
@@ -160,14 +161,20 @@ export default function Services() {
       </div>
 
       <div className="w-full flex justify-center items-center">
-        <span className="mx-2 inline-flex lg:w-[12%] md:w-[25%] w-[50%] margin-sm-override">
+        <motion.span
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0px 5px 15px rgba(137, 193, 62, 0.4)",
+          }}
+          className="mx-2 inline-flex lg:w-[12%] md:w-[25%] w-[50%] margin-sm-override"
+        >
           <Link
             href="/training#upcoming-training"
             className="bg-[#FFFFFF] text-[#89C13E] px-6 py-4 w-full h-full flex justify-center items-center border transition_button border-[#89C13E] rounded-[.3rem] font-bricolage_grotesque"
           >
             ENROLL NOW
           </Link>
-        </span>
+        </motion.span>
       </div>
     </section>
   );

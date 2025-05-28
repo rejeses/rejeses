@@ -24,6 +24,19 @@ async function main() {
       startDate: "2024-04-13",
       email: "test@mail.io",
       amount: 10000,
+      participants: [
+        {
+          id: 1,
+          firstName: "Samson",
+          lastName: "Ekong",
+          otherName: "Chisom",
+        },
+        {
+          id: 2,
+          firstName: "Elizabeth",
+          lastName: "Lesley",
+        },
+      ],
       status: "completed",
       createdAt: new Date(),
       updatedAt: new Date(),

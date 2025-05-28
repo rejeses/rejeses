@@ -1,19 +1,5 @@
-// import Checkout from "@/components/reusables/checkout";
 import data from "@/utils/data/training_data.json";
-import dynamic from "next/dynamic";
-import Loading from "@/app/feed/loading";
-
-const DynamicCheckout = dynamic(
-  () => import("@/components/reusables/checkout"),
-  {
-    ssr: false,
-    loading: () => (
-      <section className="flex justify-center items-center w-full h-screen">
-        <Loading />
-      </section>
-    ),
-  }
-);
+import DynamicCheckout from "@/components/general/dynamic_checkout";
 
 export async function generateStaticParams() {
   return data.map((item) => ({
@@ -21,10 +7,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const pricingItem = data.find(
-    (item) => item.id.toString() === params.slug.toString()
-  );
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const pricingItem = data.find((item) => item.id.toString() === slug);
 
   if (!pricingItem) {
     return (

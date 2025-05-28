@@ -2,14 +2,22 @@ import Link from "next/link";
 
 export default function TermsOfUse() {
   return (
-    <div className="flex items-center justify-center w-full py-6 px-4 md:bg-inherit max-md:bg-gray-100 sm:bg-gray-100 text-[#5B5B5B]">
-      <div className="flex space-x-4 justify-center items-center w-full">
-        <Link href="/termsandconditions" className="text-lg transition_border font-bricolage_grotesque">
-          TERMS OF USE
+    <div className="max-w-7xl mx-auto border-t border-gray-200">
+      <div className="flex flex-col sm:flex-row items-center justify-center py-6 px-6 md:px-10 space-y-4 sm:space-y-0">
+        <Link
+          href="/termsandconditions"
+          className="text-gray-600 hover:text-gray-900 text-sm font-medium tracking-wider transition-colors duration-300 uppercase font-bricolage_grotesque"
+        >
+          Terms of Use
         </Link>
-        <span className="border-r-2 border-[#535353] h-6 mx-4"></span>
-        <Link href="/privacy-policy" className="text-lg transition_border font-bricolage_grotesque">
-          PRIVACY POLICY
+
+        <div className="hidden sm:block mx-4 h-5 border-r border-gray-300"></div>
+
+        <Link
+          href="/privacy-policy"
+          className="text-gray-600 hover:text-gray-900 text-sm font-medium tracking-wider transition-colors duration-300 uppercase font-bricolage_grotesque"
+        >
+          Privacy Policy
         </Link>
       </div>
     </div>

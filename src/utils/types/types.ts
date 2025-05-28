@@ -197,25 +197,44 @@ export type TouchedFields = {
   message: boolean;
 };
 
+export interface scrollSectionTypes {
+  children: React.ReactNode;
+  className: string;
+}
+
 export interface FormDataTYpe {
   firstName: string;
   lastName: string;
   email: string;
   currency: string;
   discount?: string;
+  participants: Array<{
+    name: string;
+    email: string;
+  }>;
 }
 
 // !-------------------------------------------- end for class schedule --------------------------------------!
 export interface PaymentInfo {
   price: number;
   price2: number;
+  original_price: number;
+  original_price2: number;
   training_id: number | null;
   training_type: string;
   start_date: string;
   classScheduleType: string;
   training_option?: string;
   is_group: boolean;
-  promoPrices?: {
+  promoPrices?: PromoData;
+}
+
+export type TrainingType = "training" | "mentoring" | "training&mentoring";
+
+export interface PromoData {
+  isPromo: boolean;
+  dateRange: string[];
+  prices: {
     naira: {
       training: number;
       mentoring: number;
@@ -229,8 +248,22 @@ export interface PaymentInfo {
   };
 }
 
+export interface AnimatedAboutcardProps {
+  children?: React.ReactNode;
+  delay: number;
+  className?: string;
+}
+
+export interface PromoBannerProps {
+  promoData: PromoData;
+}
+
 export interface OrderResponse {
   data: string;
+}
+
+export interface PromoPricingProps {
+  promoData: PromoData | null;
 }
 
 export interface TransactionResponseType {
@@ -264,6 +297,7 @@ export interface OrderDataType {
   status: string;
   createdAt: string;
   updatedAt: string;
+  participants: string[];
 }
 
 // -------------------------------------------------> Animation indicator Types <--------------------------------------------------
@@ -308,9 +342,7 @@ export interface CertificationData {
 }
 
 export interface PageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 // -------------------------------------------------> Endo of certification Types <--------------------------------------------------
 
@@ -372,5 +404,10 @@ export interface EmailConfig {
     pass: string;
   };
 }
+
+export type Participant = {
+  name: string;
+  email: string;
+};
 
 // !-----------------------------------------End of DB & Server Types -------------------------------------------------!

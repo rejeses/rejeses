@@ -112,11 +112,19 @@ const Table: React.FC<TableProps> = ({ data }) => {
     const withBookingLinks = replaceBookingLink(content);
     return (
       <>
-        {withBookingLinks.map((part, partIndex) =>
-          typeof part === "string"
-            ? replaceCertifications(part, index + partIndex)
-            : part
-        )}
+        {withBookingLinks.map((part, partIndex) => {
+          const key = `${index}-${partIndex}`;
+
+          if (typeof part === "string") {
+            return (
+              <Fragment key={key}>
+                {replaceCertifications(part, partIndex)}
+              </Fragment>
+            );
+          }
+
+          return <Fragment key={key}>{part}</Fragment>;
+        })}
       </>
     );
   };
@@ -187,7 +195,7 @@ const AccordionTrigger = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Header className="flex">
     <Accordion.Trigger
-      className={`hover:bg-[#3c205c] cursor-pointer group pb-12 flex h-[45px] flex-1 my-2 items-center justify-between lg:py-12 py-8 bg-[#452569] text-white px-5 md:text-[25px] font-bold text-[15px] leading-none shadow-[0_1px_0] outline-none ${
+      className={`hover:bg-[#3c205c] cursor-pointer group pb-12 flex h-[45px] flex-1 my-2 items-center justify-between lg:py-12 py-8 bg-[#452569] text-white px-5 md:text-[25px] font-bold text-[15px] leading-none shadow-[0_1px_0] outline-hidden ${
         className ?? ""
       }`}
       {...props}
@@ -218,7 +226,7 @@ const AccordionContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Accordion.Content>
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Content
-    className={`overflow-hidden data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp text-[15px] ${
+    className={`overflow-hidden data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up text-[15px] ${
       className ?? ""
     }`}
     {...props}

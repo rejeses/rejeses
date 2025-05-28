@@ -60,20 +60,20 @@ export default function Tagline() {
   const containerVariants = {
     hidden: {
       opacity: 0,
-      y: 20,
+      y: -100,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 1.2,
         ease: "easeOut",
       },
     },
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isReady && (
         <motion.div
           className="text-[#DF8244] bg-[#FEF9F6] border border-[#F8E2D3] mt-8 -mb-6 font-semibold rounded-lg flex items-center text-ellipsis text-nowrap px-4 py-2"

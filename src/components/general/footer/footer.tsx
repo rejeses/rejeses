@@ -84,7 +84,8 @@ const Footer: React.FC = () => {
   }, []);
 
   return (
-    <footer className="my-4">
+    <footer className="my-4 bg-white">
+      {/* Dynamic Components */}
       {filteredTestimonalData.length === 0 ? null : (
         <Testimonial data={filteredTestimonalData} />
       )}
@@ -92,8 +93,12 @@ const Footer: React.FC = () => {
         <Table data={filteredTableData} />
       )}
       {pathname === "/" && <BookSession />}
-      <LastEl />
-      <TermsOfUse />
+
+      {/* Updated Last Element and Terms of Use with modern styling */}
+      <div className="border-t border-gray-200 mt-8">
+        <LastEl />
+        <TermsOfUse />
+      </div>
     </footer>
   );
 };

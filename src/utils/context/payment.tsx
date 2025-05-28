@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { PaymentInfo } from "../types/types";
+import { PaymentInfo, TrainingType } from "../types/types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Define types for Navigation Context
@@ -24,6 +24,8 @@ interface NavigationContextType {
 interface PaymentContextType {
   paymentInfo: PaymentInfo;
   setPaymentInfo: React.Dispatch<React.SetStateAction<PaymentInfo>>;
+  selectedType: TrainingType;
+  setSelectedType: React.Dispatch<React.SetStateAction<TrainingType>>;
 }
 
 // Create Navigation Context
@@ -40,6 +42,8 @@ const PaymentContext = createContext<PaymentContextType>({
   paymentInfo: {
     price: 0,
     price2: 0,
+    original_price: 0,
+    original_price2: 0,
     training_id: null,
     training_type: "",
     start_date: "",
@@ -47,6 +51,8 @@ const PaymentContext = createContext<PaymentContextType>({
     is_group: false,
   },
   setPaymentInfo: () => {},
+  selectedType: "training",
+  setSelectedType: () => {},
 });
 
 // Custom hooks for accessing contexts
@@ -60,24 +66,33 @@ const queryClient = new QueryClient();
 export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [selectedType, setSelectedType] = useState<
+    "training" | "mentoring" | "training&mentoring"
+  >("training");
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
     price: 0,
     price2: 0,
+    original_price: 0,
+    original_price2: 0,
     training_id: null,
     training_type: "",
     start_date: "",
     classScheduleType: "",
     is_group: false,
     promoPrices: {
-      naira: {
-        training: 0,
-        mentoring: 0,
-        "training&mentoring": 0,
-      },
-      dollar: {
-        training: 0,
-        mentoring: 0,
-        "training&mentoring": 0,
+      dateRange: [],
+      isPromo: false,
+      prices: {
+        naira: {
+          training: 0,
+          mentoring: 0,
+          "training&mentoring": 0,
+        },
+        dollar: {
+          training: 0,
+          mentoring: 0,
+          "training&mentoring": 0,
+        },
       },
     },
   });
@@ -125,7 +140,9 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
       <NavigationContext.Provider
         value={{ isNigeria, setIsNigeria, isMobile, width, updateWidth }}
       >
-        <PaymentContext.Provider value={{ paymentInfo, setPaymentInfo }}>
+        <PaymentContext.Provider
+          value={{ paymentInfo, setPaymentInfo, selectedType, setSelectedType }}
+        >
           {children}
         </PaymentContext.Provider>
       </NavigationContext.Provider>

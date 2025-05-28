@@ -1,4 +1,5 @@
-import { EmailConfig } from "@/utils/types/types";
+import { EmailConfig, PromoData } from "@/utils/types/types";
+import { toast } from "react-toastify";
 
 export function createEmailTemplate(
   name: string,
@@ -144,22 +145,61 @@ export function createEmailTemplate(
   `;
 }
 
-export const getNextMondayDates = (count: number) => {
+export const getNextMondayDates = (
+  count?: number,
+  promoStartDate?: string,
+  promoEndDate?: string
+) => {
   const dates = [];
-  const today = new Date();
-  // Calculate the closest Monday
-  const dayOfWeek = today.getDay();
-  const daysUntilMonday = (dayOfWeek === 0 ? 1 : 8) - dayOfWeek; // Sunday to Monday or the next Monday
-  let currentMonday = new Date(today);
-  currentMonday.setDate(today.getDate() + daysUntilMonday);
+  if (count) {
+    const today = new Date();
+    // Calculate the closest Monday
+    const dayOfWeek = today.getDay();
+    const daysUntilMonday = (dayOfWeek === 0 ? 1 : 8) - dayOfWeek; // Sunday to Monday or the next Monday
+    let currentMonday = new Date(today);
+    currentMonday.setDate(today.getDate() + daysUntilMonday);
 
-  // Generate dates for each card
-  for (let i = 0; i < count; i++) {
-    dates.push(new Date(currentMonday));
-    currentMonday.setDate(currentMonday.getDate() + 7); // Move to the next Monday
+    // Generate dates for each card
+    for (let i = 0; i < count; i++) {
+      dates.push(new Date(currentMonday));
+      currentMonday.setDate(currentMonday.getDate() + 7); // Move to the next Monday
+    }
+
+    return dates;
+  } else if (promoStartDate && promoEndDate) {
+    const dates = [];
+
+    const startDate = new Date(promoStartDate);
+    const endDate = new Date(promoEndDate);
+
+    // Find the first Monday on or after the start date
+    let currentDate = new Date(startDate);
+    const day = currentDate.getDay();
+
+    // If not already Monday, move to next Monday
+    if (day !== 1) {
+      currentDate.setDate(currentDate.getDate() + ((1 + 7 - day) % 7));
+    }
+
+    // Add all Mondays within the range
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 7); // Move to next Monday
+    }
+
+    return dates;
+  } else {
+    return null;
   }
+};
 
-  return dates;
+export const isPromoExpired = (promoData: PromoData, deadline: string) => {
+  if (!promoData || !promoData.dateRange) return true;
+
+  const currentDate = new Date();
+  const endDate = new Date(deadline);
+
+  return currentDate > endDate;
 };
 
 export function formatDate(courseDate: Date) {
@@ -199,111 +239,200 @@ export function createCourseEmailTemplate(
   courseSchedule: Date[],
   courseScheduleType: string,
   amount: number,
-  currency: string
+  currency: string,
+  courseparticipants: { name: string; email: string }[],
+  participant?: boolean,
+  isPayer?: boolean
 ) {
+  const fullName = `${firstName} ${lastName}`;
+  const otherParticipants = courseparticipants.filter(
+    (p) => p.name.toLowerCase() !== fullName.toLowerCase()
+  );
+
+  const renderParticipantsSection = () => {
+    if (isPayer) {
+      return `
+        <div style="margin-top: 20px;">
+          <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Participants:</div>
+          <ul style="font-size: 15px; padding-left: 18px; margin: 10px 0;">
+            ${
+              courseparticipants &&
+              courseparticipants.length > 0 &&
+              courseparticipants[0].name !== "" &&
+              courseparticipants
+                .map((p) => `<li>${p.name} (${p.email})</li>`)
+                .join("")
+            }
+          </ul>
+        </div>
+      `;
+    }
+
+    if (
+      participant &&
+      otherParticipants.length > 0 &&
+      otherParticipants[0].name !== ""
+    ) {
+      return `
+        <div style="margin-top: 20px;">
+          <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Other Participants:</div>
+          <ul style="font-size: 15px; padding-left: 18px; margin: 10px 0;">
+            ${otherParticipants
+              .map((p) => `<li>${p.name} (${p.email})</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    if (
+      !participant &&
+      courseparticipants.length > 1 &&
+      courseparticipants[0].name !== ""
+    ) {
+      return `
+        <div style="margin-top: 20px;">
+          <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Participants:</div>
+          <ul style="font-size: 15px; padding-left: 18px; margin: 10px 0;">
+            ${courseparticipants
+              .map((p) => `<li>${p.name} (${p.email})</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    return "";
+  };
+
+  const registrationMessage = isPayer
+    ? `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
+      Thank you for registering for the <strong>${courseType}</strong> program.
+    </p>`
+    : participant
+    ? `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
+      You have been registered for the <strong>${courseType}</strong> program.
+    </p>`
+    : `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
+      Thank you for registering for the <strong>${courseType}</strong> program.
+    </p>`;
+
   return `
-      <html>
-        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
-          <div style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 30px;">
-            <div style="background-color: #89c13e; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; font-size: 20px;">
-              <h1 style="margin: 0;">Course Registration Confirmation</h1>
-            </div>
-            <div style="margin-top: 18px;">
-              <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Dear ${firstName} ${lastName},</div>
-              <p style="margin-bottom: 15px; font-size: 15px;">
-                Thank you for registering for the <strong>${courseType}</strong> program. Below are your registration details:
-              </p>
+    <html>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
+        <div style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 30px;">
+          <div style="background-color: #89c13e; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; font-size: 20px;">
+            <h1 style="margin: 0;">
               ${
-                courseType.includes("Mentoring")
-                  ? `<p style="margin-bottom: 15px; font-size: 15px;">
-                      You have registered for the mentoring program. As a result, you will be contacted soon regarding the program details.
-                    </p>`
-                  : ""
+                participant
+                  ? `Course Payment on behalf of ${fullName}`
+                  : isPayer
+                  ? `Course Registration Confirmation`
+                  : `Hello ${fullName}`
               }
-              
-              <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Program Type:</div>
-              <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${courseType}</div>
-              
-              <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Start Date:</div>
-              <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
+            </h1>
+          </div>
+          <div style="margin-top: 18px;">
+            ${registrationMessage}
+
+            ${
+              courseType.includes("Mentoring")
+                ? `<p style="margin-bottom: 15px; font-size: 15px;">
+                    You have registered for the mentoring program. As a result, you will be contacted soon regarding the program details.
+                  </p>`
+                : ""
+            }
+
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Program Type:</div>
+            <div style="margin-bottom: 15px; font-size: 15px;">${courseType}</div>
+
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Start Date:</div>
+            <div style="margin-bottom: 15px; font-size: 15px;">
+              ${
                 courseType.includes("Mentoring")
                   ? "You will be contacted"
-                  : !courseType.includes("Mentoring") &&
-                    courseScheduleType === "weekend"
+                  : courseScheduleType === "weekend"
                   ? formatSingleDate(courseSchedule[0])
                   : formatSingleDate(startDate)
-              }</div>
-
-              ${
-                !courseType.includes("Mentoring")
-                  ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Schedule Type:</div>
-              <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${capitalizeCourseScheduleType(
-                courseScheduleType
-              )}</div>`
-                  : ""
-              }
-              ${
-                !courseType.includes("Mentoring")
-                  ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Days:</div>
-              <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${formatCourseSchedule2(
-                courseSchedule
-              )}</div>`
-                  : ""
-              }
-              
-              <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Amount Paid:</div>
-              <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
-                currency === "naira" ? "NGN" : "$"
-              } ${formatPrice(amount)}</div>
-              
-              <div style="background-color: #f9f9f9; border-left: 4px solid #89c13e; padding: 15px; margin-top: 20px; font-size: 15px;">
-                ${
-                  !courseType.includes("Mentoring")
-                    ? `<p style="margin: 0;">
-                        If you have any questions, kindly reply to this email. We look forward to seeing you on <strong>${
-                          courseScheduleType === "weekend"
-                            ? formatSingleDate(courseSchedule[0])
-                            : formatSingleDate(startDate)
-                        }</strong>.
-                      </p>`
-                    : `<p style="margin: 0;">
-                        If you have any questions, feel free to contact us. We look forward to seeing you in class.
-                      </p>`
-                }
-              </div>
-
-              ${
-                !courseType.includes("Mentoring")
-                  ? `
-                    <div style="text-align: center; margin-top: 20px;">
-                      <p style="font-size: 15px; color: #666;">
-                        Click the button below to join the classes on each of the class days.
-                      </p>
-                      <a href="https://us06web.zoom.us/j/4740587248?pwd=Y0NTc2phUHcxVXV1OTlCUGxGdjU5dz09&omn=89077871808"
-                        style="display: inline-block; background-color: #007bff; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: bold;">
-                        Join Class
-                      </a>
-                    </div>
-                  `
-                  : ""
               }
             </div>
 
-            <!-- Footer -->
-            <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
-              <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
-              <p style="margin: 5px 0;">
-                Need help? Contact us at 
-                <a href="mailto:info@rejeses.com" text-decoration: none;">info@rejeses.com</a>
-              </p>
-              <p style="margin: 5px 0;">
-                <a href="https://rejeses.com/" style="color: #89c13e; text-decoration: none;">Visit website</a>
-              </p>
+            ${
+              !courseType.includes("Mentoring")
+                ? `
+                  <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Schedule Type:</div>
+                  <div style="margin-bottom: 15px; font-size: 15px;">${capitalizeCourseScheduleType(
+                    courseScheduleType
+                  )}</div>
+                `
+                : ""
+            }
+
+            ${
+              !courseType.includes("Mentoring")
+                ? `
+                  <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Days:</div>
+                  <div style="margin-bottom: 15px; font-size: 15px;">${formatCourseSchedule2(
+                    courseSchedule
+                  )}</div>
+                `
+                : ""
+            }
+
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Amount Paid:</div>
+            <div style="margin-bottom: 15px; font-size: 15px;">
+              ${
+                currency === "naira" || currency === "NGN" ? "NGN" : "$"
+              } ${formatPrice(amount)}
             </div>
+
+            ${
+              courseparticipants &&
+              courseparticipants.length > 0 &&
+              courseparticipants[0].name !== ""
+                ? renderParticipantsSection()
+                : ""
+            }            
+
+            <div style="background-color: #f9f9f9; border-left: 4px solid #89c13e; padding: 15px; margin-top: 20px; font-size: 15px;">
+              ${
+                courseType.includes("Mentoring")
+                  ? `<p style="margin: 0;">If you have any questions, feel free to contact us. We look forward to seeing you in class.</p>`
+                  : `<p style="margin: 0;">If you have any questions, kindly reply to this email. We look forward to seeing you on <strong>${
+                      courseScheduleType === "weekend"
+                        ? formatSingleDate(courseSchedule[0])
+                        : formatSingleDate(startDate)
+                    }</strong>.</p>`
+              }
+            </div>
+
+            ${
+              !courseType.includes("Mentoring")
+                ? `
+                  <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 15px; color: #666;">
+                      Click the button below to join the classes on each of the class days.
+                    </p>
+                    <a href="https://us06web.zoom.us/j/4740587248?pwd=Y0NTc2phUHcxVXV1OTlCUGxGdjU5dz09&omn=89077871808"
+                      style="display: inline-block; background-color: #007bff; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: bold;">
+                      Join Class
+                    </a>
+                  </div>
+                `
+                : ""
+            }
           </div>
-        </body>
-      </html>
-    `;
+
+          <!-- Footer -->
+          <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
+            <p style="margin: 5px 0;">Need help? Contact us at <a href="mailto:info@rejeses.com" style="text-decoration: none;">info@rejeses.com</a></p>
+            <p style="margin: 5px 0;"><a href="https://rejeses.com/" style="color: #89c13e; text-decoration: none;">Visit website</a></p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
 }
 
 export function createPromoEmailTemplate(code: string, expiryDate: Date) {
@@ -487,6 +616,14 @@ export const capitalizeCourseScheduleType = (item: string) => {
   const first = item.charAt(0).toUpperCase() + restOfItems;
   return first;
 };
+
+export const notify = (message: string) =>
+  toast.error(message, {
+    autoClose: 3000,
+    hideProgressBar: true,
+    theme: "colored",
+    toastId: "1",
+  });
 
 // Function to get the appropriate email configuration based on environment
 export const getEmailConfig = (

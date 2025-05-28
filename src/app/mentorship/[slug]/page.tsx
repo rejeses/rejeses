@@ -5,6 +5,10 @@ export async function generateStaticParams() {
   return [{ slug: "pricing" }];
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   return <MentorshipPaymentSummary />;
 }

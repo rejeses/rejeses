@@ -1,10 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { Fragment, useState } from "react";
 import { Certification } from "@/utils/types/types";
 import SkeletalLoader from "@/components/reusables/animation/skeletol_loader";
+import Button from "@/components/reusables/button";
 
 export interface CertificationProps {
   certification: Certification;
@@ -268,19 +268,14 @@ export default function Certifications({ certification }: CertificationProps) {
           </div>
 
           <div className="w-full flex justify-center items-center my-4">
-            <motion.span
-              className="bg-[#89C13E] py-3 rounded-[.3rem]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.9 }}
-            >
-              <Link
-                href="/training"
-                className="bg-[#89C13E] text-white px-6 py-4 rounded-[.3rem] font-bricolage_grotesque transition_button4"
-              >
-                Enroll Now
-              </Link>
-            </motion.span>
+            <span className="text-white">
+              <Button
+                text="Enroll Now"
+                bg="#89C13E"
+                url="/training"
+                transition_class="transition_button4"
+              />
+            </span>
           </div>
         </div>
       </div>

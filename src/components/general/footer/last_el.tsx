@@ -1,80 +1,79 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Last_el() {
+export default function LastEl() {
   return (
-    <div className="flex justify-between items-center py-8 md:px-12 px-6 w-full text-[#5B5B5B] md:flex-nowrap flex-wrap-reverse">
-      <div className="lg:w-[30%] md:w-[50%] w-full flex lg:justify-between md:justify-around justify-between items-center text-nowrap text-ellipsis">
-        <p className="text-2xl lg:mx-2 font-bricolage_grotesque lg:mr-0 md:mr-1">&copy;</p>
+    <div className="max-w-7xl mx-auto py-10 md:py-12 px-6 md:px-10">
+      <div className="flex justify-between items-center flex-wrap-reverse md:flex-wrap lg:flex-nowrap gap-6">
+        {/* Copyright section */}
+        <div className="w-full md:w-auto flex items-center space-x-2 text-gray-600">
+          <p className="text-xl font-bricolage_grotesque">&copy;</p>
+          <p className="text-base font-bricolage_grotesque">
+            {new Date().getFullYear()}{" "}
+            <span className="font-bold">Rejeses Consult</span>.
+          </p>
+          <p className="text-base font-bricolage_grotesque hidden md:block">
+            All rights reserved.
+          </p>
+        </div>
 
-        <p className="text-lg lg:mx-2 font-bricolage_grotesque">
-          2025{" "}
-          <span className="font-bold font-bricolage_grotesque">
-            Rejeses Consult
-          </span>
-          .
-        </p>
-
-        <p className="text-lg lg:mx-2 font-bricolage_grotesque">
-          All rights reserved.
-        </p>
-      </div>
-
-      <div className="lg:w-1/4 md:w-[40%] w-full flex md:justify-end justify-between items-center md:mb-0 mb-12">
-        <Link
-          href="https://www.instagram.com/rejeses_pmc/"
-          target="_blank"
-          className="md:mx-4"
-        >
-          <Image src="/instagram.png" alt="linkedIn" width={30} height={50} />
-        </Link>
-
-        <Link
-          href="https://www.facebook.com/rejesespmc/"
-          target="_blank"
-          className="md:mx-4"
-        >
-          <Image src="/facebook.png" alt="linkedIn" width={30} height={50} />
-        </Link>
-
-        <Link
-          href="https://www.linkedin.com/company/rejeses"
-          target="_blank"
-          className="md:mx-4"
-        >
-          <Image src="/linkedIn.svg" alt="linkedIn" width={30} height={50} />
-        </Link>
-
-        <Link
-          href="https://twitter.com/rejeses_pmc"
-          target="_blank"
-          className="md:mx-4"
-        >
-          <Image
-            src="/x-icon.svg"
-            alt="X(Formerly-twitter)"
-            width={30}
-            height={50}
-          />
-        </Link>
-
-        <Link
-          href="https://wa.me/+2348156738747?text=Hello,%20I%20would%20like%20to%20inquire%20about%20your%20courses."
-          target="_blank"
-          className="md:mx-4"
-        >
-          <Image
-            src="/whatsapp-icon.svg"
-            alt="whatsapp"
-            width={30}
-            height={50}
-          />
-        </Link>
-
-        <Link href="mailto:info@rejeses.com" className="md:mx-4">
-          <Image src="/mail.svg" alt="E-mail" width={30} height={50} />
-        </Link>
+        {/* Social media icons with hover effects */}
+        <div className="w-full md:w-auto flex justify-between md:justify-end items-center space-x-3 md:space-x-4">
+          {socialLinks.map((item) => (
+            <Link
+              key={item.alt}
+              href={item.href}
+              target="_blank"
+              className="transition-transform hover:scale-110 duration-300"
+              aria-label={item.alt}
+            >
+              <div className="bg-gray-50 hover:bg-gray-100 p-2 rounded-full transition-colors duration-300">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain"
+                />
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
+// Social media links data
+const socialLinks = [
+  {
+    src: "/instagram.png",
+    alt: "Instagram",
+    href: "https://www.instagram.com/rejeses_pmc/",
+  },
+  {
+    src: "/facebook.png",
+    alt: "Facebook",
+    href: "https://www.facebook.com/rejesespmc/",
+  },
+  {
+    src: "/linkedIn.svg",
+    alt: "LinkedIn",
+    href: "https://www.linkedin.com/company/rejeses",
+  },
+  {
+    src: "/x-icon.svg",
+    alt: "X(Formerly-twitter)",
+    href: "https://twitter.com/rejeses_pmc",
+  },
+  {
+    src: "/whatsapp-icon.svg",
+    alt: "WhatsApp",
+    href: "https://wa.me/+2348156738747?text=Hello,%20I%20would%20like%20to%20inquire%20about%20your%20courses.",
+  },
+  {
+    src: "/mail.svg",
+    alt: "E-mail",
+    href: "mailto:info@rejeses.com",
+  },
+];

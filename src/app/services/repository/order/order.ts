@@ -12,6 +12,12 @@ const getOrderById = async (query: number) => {
   }
 };
 
+const getOrderByTransactionRef = async (transactionOrderRef: number) => {
+  return await prisma.order.findUnique({
+    where: { id: transactionOrderRef },
+  });
+};
+
 const getOrderByStatus = async (query: StatusType) => {
   try {
     return await prisma.order.findMany({ where: { status: query } });
@@ -36,7 +42,7 @@ const createOrder = async (data: OrderType) => {
 
 const updateOrder = async (
   query: number,
-  data: Partial<Omit<Order, "id" | "createdAt" | "updatedAt">>
+  data: Partial<Omit<Prisma.OrderUpdateInput, "id" | "createdAt" | "updatedAt">>
 ): Promise<Order> => {
   try {
     const found = await getOrderById(query);
@@ -73,4 +79,5 @@ export {
   createOrder,
   updateOrder,
   getOrderTransactions,
+  getOrderByTransactionRef,
 };

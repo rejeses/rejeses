@@ -11,6 +11,9 @@ import UpcomingCohorts from "@/components/web_pages/training/upcoming_training";
 import { usePayment, useNavigation } from "@/utils/context/payment";
 import Button from "@/components/reusables/button";
 import { getNextMondayDates } from "@/utils/reusables/functions";
+import usePromoData from "@/utils/hooks/usePromoData";
+import PromoBanner from "@/app/promo/banner";
+import PromoPricing from "@/app/promo/promoPricing";
 
 export default function Training_page() {
   const trainingItem = data[0];
@@ -18,6 +21,8 @@ export default function Training_page() {
   const pricingRef = useRef<HTMLDivElement | null>(null);
   const { setPaymentInfo, paymentInfo } = usePayment();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const { promoData } = usePromoData();
 
   const { isNigeria } = useNavigation();
 
@@ -54,6 +59,8 @@ export default function Training_page() {
       ...prev,
       price: individualPrice,
       price2: individualPrice2,
+      original_price: individualPrice,
+      original_price2: individualPrice2,
       training_id: trainingItem.id,
       training_option: `You are subscribing to rejeses consult 4-week training plan. You will be charged ${
         isNigeria ? "NGN " : "$"
@@ -63,15 +70,17 @@ export default function Training_page() {
   };
 
   useEffect(() => {
-    setPaymentInfo((prev) => ({
-      ...prev,
-      start_date: startDates[0].toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }),
-      training_type: "Project Management Training",
-    }));
+    if (startDates) {
+      setPaymentInfo((prev) => ({
+        ...prev,
+        start_date: startDates[0].toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        training_type: "Project Management Training",
+      }));
+    }
 
     if (window.location.hash === "#pricing" && pricingRef.current) {
       pricingRef.current.scrollIntoView({ behavior: "smooth" });
@@ -202,6 +211,10 @@ export default function Training_page() {
   return (
     <section className="w-full flex flex-col justify-center items-center">
       <section className="w-full px-8 flex flex-col gap-6 py-12  md:max-w-[98%] justify-center">
+        {promoData && (
+          <PromoBanner isNigeria={isNigeria} promoData={promoData} />
+        )}
+
         <div className="flex flex-col w-full gap-4 lg:px-12 md:px-6 md:mt-10">
           <h1 className="md:text-5xl text-3xl font-bold font-bricolage_grotesque">
             {trainingItem.title}
@@ -282,7 +295,7 @@ export default function Training_page() {
 
         <Why_us data={whyUsItems} />
 
-        <UpcomingCohorts />
+        {!promoData?.isPromo && <UpcomingCohorts />}
 
         <section className="w-full flex flex-col gap-4 lg:px-12 md:px-6 md:mt-8 md:mb-12">
           {/* <h1 className="lg:text-4xl text-2xl font-bold font-bricolage_grotesque">
@@ -305,23 +318,30 @@ export default function Training_page() {
               Start date: {trainingItem.start_date}
             </p> */}
 
-            <div className="flex md:gap-x-4 gap-x-2 w-full sm_btn-container">
-              <Link
-                onClick={getPaymentData}
-                href={`/training/${trainingItem.id}/class_schedule`}
-                className="bg-[#FFFFFF] border border-[#DBE1E7] transition_button text-[#89C13E] font-bricolage_grotesque md:px-8 px-2 py-4 flex gap-x-4 btn text-nowrap text-ellipsis items-center justify-center rounded-md"
-              >
-                <span>
-                  <ArchiveIcon />
-                </span>
-                View Class Schedule
-              </Link>
-            </div>
+            {!promoData?.isPromo && (
+              <div className="flex md:gap-x-4 gap-x-2 w-full sm_btn-container">
+                <Link
+                  onClick={getPaymentData}
+                  href={`/training/${trainingItem.id}/class_schedule`}
+                  className="bg-[#FFFFFF] border border-[#DBE1E7] transition_button text-[#89C13E] font-bricolage_grotesque md:px-8 px-2 py-4 flex gap-x-4 btn text-nowrap text-ellipsis items-center justify-center rounded-md"
+                >
+                  <span>
+                    <ArchiveIcon />
+                  </span>
+                  View Class Schedule
+                </Link>
+              </div>
+            )}
           </div>
         </section>
-        <section className="my-12" ref={pricingRef} id="pricing">
-          <Pricing item={trainingItem.pricing} id={trainingItem.id} />
-        </section>
+        {/* Show promo-specific pricing UI if promo is active, otherwise show regular pricing */}
+        {promoData && promoData.isPromo ? (
+          <PromoPricing promoData={promoData} />
+        ) : (
+          <section className="my-12" ref={pricingRef} id="pricing">
+            <Pricing item={trainingItem.pricing} id={trainingItem.id} />
+          </section>
+        )}
       </section>
     </section>
   );
