@@ -10,7 +10,7 @@ export default function LastEl() {
           <p className="text-xl font-bricolage_grotesque">&copy;</p>
           <p className="text-base font-bricolage_grotesque">
             {new Date().getFullYear()}{" "}
-            <span className="font-bold">Rejeses Consult</span>.
+            <span className="font-bold">Rejeses Consult Ltd.</span>.
           </p>
           <p className="text-base font-bricolage_grotesque hidden md:block">
             All rights reserved.
