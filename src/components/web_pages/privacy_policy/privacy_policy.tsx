@@ -110,10 +110,10 @@ export default function PrivacyPolicy() {
             us at
             <span className="ml-2">
               <Link
-                href="mailto:rejesesconsult@gmail.com"
+                href="mailto:info@rejeses.com"
                 className="transition_border italic py-1 font-bold font-bricolage_grotesque"
               >
-                rejesesconsult@gmail.com
+                info@rejeses.com
               </Link>
             </span>
           </p>
