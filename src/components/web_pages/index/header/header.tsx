@@ -140,7 +140,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-[#F5E6FA] flex flex-col w-full gap-4 overflow-hidden">
+    <header className="bg-[#F5F0FA] flex flex-col w-full gap-4 overflow-hidden">
       <div className="w-full flex flex-col justify-center items-center my-8">
         <Tagline />
         <div className="md:w-3/4 w-full flex flex-col justify-center items-center gap-3 px-4 py-8 mt-8 mb-8">
