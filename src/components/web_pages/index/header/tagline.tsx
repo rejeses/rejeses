@@ -76,7 +76,7 @@ export default function Tagline() {
     <AnimatePresence mode="wait">
       {isReady && (
         <motion.div
-          className="text-[#A144DF] bg-[#FEF9F6] border border-[#F8E2D3] mt-8 -mb-6 font-semibold rounded-lg flex items-center text-ellipsis text-nowrap px-4 py-2"
+          className="text-[#A144DF] bg-[#FEF9F6] border border-[#A144DF] mt-8 -mb-6 font-semibold rounded-lg flex items-center text-ellipsis text-nowrap px-4 py-2"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -109,7 +109,7 @@ export default function Tagline() {
                 }}
               >
                 {displayText}
-                <span className="animate-pulse text-[#DF8244]">|</span>
+                <span className="animate-pulse text-[#A144DF]">|</span>
               </div>
             </div>
           </div>
