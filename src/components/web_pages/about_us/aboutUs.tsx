@@ -341,10 +341,10 @@ export default function AboutUs() {
                 </svg>
               </motion.div>
               <h2 className="text-2xl md:text-3xl font-semibold text-[#535353] font-bricolage_grotesque mb-4">
-                Our Philosophy: The REJESES Framework
+                Our Core Pillars: R.E.J.E.S.E.S
               </h2>
               <motion.p className="mb-4 text-lg text-[#535353]">
-                R.E.J.E.S.E.S is more than our name it&apos;s our belief system:
+                REJESES is more than our name. It&apos;s our belief system:
               </motion.p>
               <motion.ul
                 className="space-y-2 flex flex-col gap-y-2 text-[#535353] overflow-y-auto max-h-[400px] pr-2"
