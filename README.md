@@ -1,6 +1,6 @@
 # REJESES CONSULTING
 
-Learn and become excellent at project management.
+Become excellent at project management.
 
 ## Getting started with the development server
 
