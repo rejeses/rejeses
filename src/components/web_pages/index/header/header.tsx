@@ -151,7 +151,7 @@ export default function Header() {
             animate={headerTextInView ? "visible" : "hidden"}
             className="lg:text-[60px] md:text-6xl text-5xl text-center font-bold lg:leading-[80px] leading-tight font-bricolage_grotesque"
           >
-            Learn and become excellent at project management
+            Become excellent at project management
           </motion.h1>
 
           <motion.p
