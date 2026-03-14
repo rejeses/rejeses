@@ -1,11 +1,11 @@
 {
-  "isPromo": false,
-  "dateRange": ["2025-06-30", "2025-08-03"],
+  "isPromo": true,
+  "dateRange": ["2026-03-30", "2026-05-03"],
   "prices": {
     "naira": {
-      "training": 65000,
+      "training": 80000,
       "mentoring": 450000,
-      "training&mentoring": 515000
+      "training&mentoring": 530000
     },
     "dollar": {
       "training": 80,
