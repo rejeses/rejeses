@@ -1,6 +1,6 @@
 {
-  "isPromo": true,
-  "dateRange": ["2026-04-30", "2026-09-03"],
+  "isPromo": false,
+  "dateRange": ["2026-03-30", "2026-06-03"],
   "prices": {
     "naira": {
       "training": 80000,
