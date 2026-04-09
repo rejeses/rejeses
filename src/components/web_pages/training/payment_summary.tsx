@@ -63,7 +63,6 @@ export default function TrainingPayment({ pricingItem }: ClientPageProps) {
       const nairaPrices = promoData.prices.naira;
       const selectedNairaPrice =
         nairaPrices?.[selectedType as keyof typeof nairaPrices] || 0;
-      console.log(selectedNairaPrice, "render");
       const adjustedPromoNairaPrice = is_group
         ? selectedNairaPrice * 5
         : selectedNairaPrice;
@@ -86,14 +85,6 @@ export default function TrainingPayment({ pricingItem }: ClientPageProps) {
   useEffect(() => {
     setFormattedSummary(formatPaymentSummary());
   }, [paymentInfo, pricingItem, isNigeria]);
-
-  useEffect(() => {
-    console.log(paymentInfo, "payment");
-  }, []);
-
-  useEffect(() => {
-    console.log(paymentInfo, "payment2");
-  }, [paymentInfo]);
 
   useEffect(() => {
     const isPromo = promoData?.isPromo;

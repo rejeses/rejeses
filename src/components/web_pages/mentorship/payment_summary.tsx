@@ -12,8 +12,6 @@ export default function MentorshipPaymentSummary() {
   const { paymentInfo, setPaymentInfo, selectedType } = usePayment();
   const { isNigeria } = useNavigation();
 
-  console.log(paymentInfo, "ment");
-
   const formatTrainingOption = (text: string) => {
     return text.replace(/rejeses consult/gi, "<b>rejeses consult</b>");
   };
