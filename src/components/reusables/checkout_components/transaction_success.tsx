@@ -308,6 +308,9 @@ export default function Transaction_success({
               </li>
             </div>
           </div>
+          <small className="font-bold font-bricolage_grotesque px-1 mt-3">
+            Kindly note that all payments are final and non-refundable.
+          </small>
         </div>
 
         <button

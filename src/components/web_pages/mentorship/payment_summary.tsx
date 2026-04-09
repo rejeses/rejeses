@@ -12,6 +12,8 @@ export default function MentorshipPaymentSummary() {
   const { paymentInfo, setPaymentInfo, selectedType } = usePayment();
   const { isNigeria } = useNavigation();
 
+  console.log(paymentInfo, "ment");
+
   const formatTrainingOption = (text: string) => {
     return text.replace(/rejeses consult/gi, "<b>rejeses consult</b>");
   };
@@ -49,26 +51,21 @@ export default function MentorshipPaymentSummary() {
       return isNigeria ? formatPrice(450000) : formatPrice(300);
     }
 
-    if (isNigeria && !promoData) {
-      return formatPrice(paymentInfo.price2);
+    if (isPromo) {
+      if (isNigeria) {
+        const nairaPrice = promoData?.prices?.naira?.[selectedType] ?? 0;
+        return formatPrice(nairaPrice);
+      } else {
+        const dollarPrice = promoData?.prices?.dollar?.[selectedType] ?? 0;
+        return formatPrice(dollarPrice);
+      }
     }
 
-    if (!isNigeria) {
-      return formatPrice(paymentInfo.price);
+    if (isNigeria) {
+      return formatPrice(paymentInfo.price2 ?? 0);
     }
 
-    if (isPromo && isNigeria) {
-      const nairaPrice = promoData?.prices.naira[selectedType] ?? 0;
-      return formatPrice(nairaPrice);
-    }
-
-    if (isPromo && !isNigeria) {
-      const dollarPrice =
-        paymentInfo.promoPrices?.prices.dollar[selectedType] ?? 0;
-      return formatPrice(dollarPrice);
-    }
-
-    return "";
+    return formatPrice(paymentInfo.price ?? 0);
   };
 
   useEffect(() => {

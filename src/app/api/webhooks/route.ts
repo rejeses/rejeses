@@ -11,6 +11,7 @@ import {
 import nodemailer from "nodemailer";
 import {
   createCourseEmailTemplate,
+  createAdminCoursePaymentNotification,
   formatPrice,
   getEmailConfig,
 } from "@/utils/reusables/functions";
@@ -67,69 +68,31 @@ export async function POST(req: Request) {
   const lastName = custom_fields.find((f: any) => f.last_name)?.last_name || "";
   const payment_id = id.toString();
 
-  const appOwnerEmailConfirmationContent = `
-    <html>
-      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
-        <div style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 30px;">
-          <div style="background-color: #89c13e; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; font-size: 20px;">
-            <h1 style="margin: 0;">Course Payment Notification</h1>
-          </div>
-          <div style="margin-top: 18px;">
-            <p style="margin-bottom: 15px; font-size: 15px;">
-              A customer has accessed the payment portal and their payment was successful. Below are the details:
-            </p>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment ID:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${id}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Reference:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${reference}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Name:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${firstName} ${lastName}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Email:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${email}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Amount Paid:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
-              currency === "NGN" ? "NGN" : "$"
-            } ${formatPrice(amount / 100)}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment Date:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${new Date(
-              paid_at
-            ).toLocaleString("en-GB")}</div>
-    
-            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment Fees:</div>
-            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${currency} ${formatPrice(
-    fees / 100
-  )}</div>
-          </div>
-        </div>
-        <!-- Footer -->
-        <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
-          <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
-          <p style="margin: 5px 0;">
-            <a href="https://rejeses.com/" style="color: #89c13e; text-decoration: none;">Visit website</a>
-          </p>
-        </div>
-      </body>
-    </html>
-    `;
+  // Replace it with this:
+  const adminHtml = createAdminCoursePaymentNotification(
+    id,
+    reference,
+    firstName,
+    lastName,
+    email,
+    amount,
+    currency,
+    paid_at,
+    fees,
+  );
 
   const transporter = nodemailer.createTransport(
-    getEmailConfig(emailUser, emailPass)
+    getEmailConfig(emailUser, emailPass),
   );
 
   const sendEmailToParticipants = async (
     participants: Participant[],
     payerEmail: string,
     order: any,
-    currency: string
+    currency: string,
   ) => {
     const rest = participants.filter(
-      (p) => p.email.toLowerCase() !== payerEmail.toLowerCase()
+      (p) => p.email.toLowerCase() !== payerEmail.toLowerCase(),
     );
 
     for (const participant of rest) {
@@ -150,11 +113,14 @@ export async function POST(req: Request) {
           order.courseScheduleType,
           order.amount,
           currency,
-          order.participants
+          order.participants,
         ),
       });
     }
   };
+
+  const year = new Date().getFullYear();
+  console.log(year, "server year");
 
   if (event === "charge.success" || event === "transfer.success") {
     const gottenTransaction = await getTransactionByReference(reference);
@@ -165,7 +131,7 @@ export async function POST(req: Request) {
           message:
             "Trasaction already marked complete.... skipping transaction....",
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -180,19 +146,23 @@ export async function POST(req: Request) {
       return Response.json({ message: "Order not found" }, { status: 404 });
     }
 
-    // Notify admin
-    await transporter.sendMail({
-      from: `Rejeses PM Consulting ${emailUser}`,
-      to: emailUser,
-      subject: "Course Payment Notification",
-      html: appOwnerEmailConfirmationContent,
-    });
+    try {
+      // Notify admin
+      await transporter.sendMail({
+        from: `Rejeses PM Consulting ${emailUser}`,
+        to: emailUser,
+        subject: "Course Payment Notification",
+        html: adminHtml,
+      });
+    } catch (err) {
+      console.error("portal mail not sent:", err);
+    }
 
     const participants = (order.participants as Participant[]) || [];
 
     if (participants.length > 0 && participants[0].name !== "") {
       const payer = participants.find(
-        (p) => p.email.toLowerCase() === email.toLowerCase()
+        (p) => p.email.toLowerCase() === email.toLowerCase(),
       );
 
       if (payer) {
@@ -212,7 +182,7 @@ export async function POST(req: Request) {
             currency,
             participants,
             false,
-            true
+            true,
           ),
         });
         await sendEmailToParticipants(participants, email, order, currency);
@@ -237,7 +207,7 @@ export async function POST(req: Request) {
           currency,
           [],
           false,
-          true
+          true,
         ),
       });
     }

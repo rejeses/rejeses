@@ -125,7 +125,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
   const pathname = usePathname();
   const decodedPathname = useMemo(
     () => decodeURIComponent(pathname),
-    [pathname]
+    [pathname],
   );
 
   const [formData, setFormData] = useState<FormDataTYpe>({
@@ -149,7 +149,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
   const router = useRouter();
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
 
@@ -206,7 +206,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
   }
 
   const createOrder = async (
-    formData: FormDataTYpe
+    formData: FormDataTYpe,
   ): Promise<OrderResponse | null> => {
     try {
       let formattedParticipants;
@@ -232,7 +232,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
 
       const response = await axios.post<OrderResponse>(
         "/api/order",
-        JSON.stringify(orderBodyParam)
+        JSON.stringify(orderBodyParam),
       );
 
       return response.data;
@@ -277,7 +277,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
 
       const transactionResponse = await axios.post(
         "/api/transaction",
-        JSON.stringify(transactionBodyParam)
+        JSON.stringify(transactionBodyParam),
       );
 
       setTransactionResponse(transactionResponse.data.data);
@@ -304,7 +304,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
 
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const handleFormSubmit = async (
-    e: FormEvent<HTMLButtonElement> | ReactKeyboardEvent
+    e: FormEvent<HTMLButtonElement> | ReactKeyboardEvent,
   ) => {
     e.preventDefault();
     try {
@@ -338,7 +338,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
 
           if (!participant.name.trim().includes(" ")) {
             notify(
-              `Please enter full name (first and last) for Participant ${i + 1}`
+              `Please enter full name (first and last) for Participant ${i + 1}`,
             );
             return;
           }
@@ -432,7 +432,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
     const pollTransactionStatus = async () => {
       try {
         const response = await axios.get(
-          `/api/get_status?reference=${transactionResponse.data.reference}`
+          `/api/get_status?reference=${transactionResponse.data.reference}`,
         );
         const { status, data, order } = response.data;
 
@@ -470,7 +470,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
             setIsPolling(false);
             setModal(true);
             setErrorMessage(
-              "Transaction status check timed out. Please contact support."
+              "Transaction status check timed out. Please contact support.",
             );
           }
         }
@@ -483,7 +483,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
           setIsPolling(false);
           setModal(true);
           setErrorMessage(
-            "Error checking transaction status. Please contact support."
+            "Error checking transaction status. Please contact support.",
           );
         }
       }
@@ -518,7 +518,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
 
     if (pricingItem) {
       const priceArray = pricingItem.pricing.individuals.map(
-        (item) => item.price
+        (item) => item.price,
       );
       const price = priceArray.length > 0 ? priceArray[0] : 0;
 
@@ -963,7 +963,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                                 formatPrice(
                                   formData.currency === "NGN"
                                     ? paymentInfo.original_price * count
-                                    : paymentInfo.original_price2 * count
+                                    : paymentInfo.original_price2 * count,
                                 )}
                             </p>
                             <h1 className="font-bold text-[#89C13E] text-lg">
@@ -977,7 +977,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                                     : paymentInfo.promoPrices &&
                                         paymentInfo.promoPrices.prices.dollar[
                                           selectedType
-                                        ] * count
+                                        ] * count,
                                 )}
                             </h1>
                           </>
@@ -990,7 +990,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                         formatPrice(
                           formData.currency === "NGN"
                             ? paymentInfo.price2 * count
-                            : paymentInfo.price * count
+                            : paymentInfo.price * count,
                         )}
                     </h1>
                   )}
@@ -1009,7 +1009,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                         formatPrice(
                           formData.currency === "NGN"
                             ? paymentInfo.original_price * count
-                            : paymentInfo.original_price2 * count
+                            : paymentInfo.original_price2 * count,
                         )}
                     </p>
                     <h1 className="font-bold text-[#89C13E]">
@@ -1022,7 +1022,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                             : paymentInfo.promoPrices &&
                                 paymentInfo.promoPrices.prices.dollar[
                                   selectedType
-                                ] * count
+                                ] * count,
                         )}
                     </h1>
                   </>
@@ -1032,7 +1032,7 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                       formatPrice(
                         formData.currency === "NGN"
                           ? paymentInfo.price2 * count
-                          : paymentInfo.price * count
+                          : paymentInfo.price * count,
                       )}
                   </h1>
                 )}
@@ -1055,6 +1055,11 @@ export default function Checkout({ pricingItem }: ClientPageProps) {
                   formatPrice(price)}
               </h1>
             </div>
+
+            <small className="font-bold font-bricolage_grotesque px-1 mt-3">
+              Kindly note that all payments are final and non-refundable. By
+              making payment, you acknowledge and agree to this policy.
+            </small>
 
             <div className="w-full flex justify-center items-center">
               <button

@@ -80,7 +80,7 @@ export default function TrainingPayment({ pricingItem }: ClientPageProps) {
       return formatPrice(adjustedPromoDollarPrice);
     }
 
-    return isNigeria ? adjustedPrice2 : adjustedPrice;
+    return isNigeria ? formatPrice(adjustedPrice2) : formatPrice(adjustedPrice);
   };
 
   useEffect(() => {
