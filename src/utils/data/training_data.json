@@ -23,8 +23,8 @@
     "payment": {
       "order_summary": "You are subscribing to rejeses consult 35 hour training plan.",
       "includes": ["/trophy.svg", "Certificate of completion"],
-      "total": 100,
-      "total2": 120000,
+      "total": 150,
+      "total2": 150000,
       "curriculum": [
         {
           "week": "Week 1",
@@ -53,8 +53,8 @@
         {
           "training_only": {
             "name": "Training only",
-            "price": 100,
-            "price2": 120000,
+            "price": 150,
+            "price2": 150000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained only",
             "payment_summary": "You are subscribing to rejeses consult 35 hour training plan.",
@@ -70,8 +70,8 @@
         {
           "training_with_mentorship": {
             "name": "Training & Mentoring",
-            "price": 400,
-            "price2": 570000,
+            "price": 500,
+            "price2": 670000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained and mentored",
             "payment_summary": "You are subscribing to rejeses consult 35 hour training plus 6-month mentorship plan.",
