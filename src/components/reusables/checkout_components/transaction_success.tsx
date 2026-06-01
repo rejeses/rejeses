@@ -1,16 +1,11 @@
 "use client";
 import { TransactionDataType, OrderDataType } from "@/utils/types/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useRef, Fragment } from "react";
+import { useState, useRef, Fragment } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  formatDate,
-  formatCourseSchedule,
-  formatSingleDate,
-  capitalizeCourseScheduleType,
-} from "@/utils/reusables/functions";
-import html2canvas from "html2canvas";
+import { capitalizeCourseScheduleType } from "@/utils/reusables/functions";
+import domtoimage from "dom-to-image-more";
 import jsPDF from "jspdf";
 import Loading from "@/app/feed/loading";
 import { useNavigation } from "@/utils/context/payment";
@@ -56,107 +51,52 @@ export default function Transaction_success({
     if (receiptRef.current) {
       try {
         setCopyingData(true);
-        // Create clone with proper styling
-        const receiptClone = receiptRef.current.cloneNode(true) as HTMLElement;
-        const container = document.createElement("div");
 
-        container.style.width = `${receiptRef.current.offsetWidth}px`;
-        container.style.backgroundColor = "white";
-        container.style.position = "absolute";
-        container.style.left = "-9999px";
-        container.style.padding = "64px 16px";
-
-        // Copy all styles
-        const originalElements = receiptRef.current.getElementsByTagName("*");
-        const cloneElements = receiptClone.getElementsByTagName("*");
-
-        for (let i = 0; i < originalElements.length; i++) {
-          const originalStyle = window.getComputedStyle(originalElements[i]);
-          const cloneElement = cloneElements[i] as HTMLElement;
-
-          Array.from(originalStyle).forEach((key) => {
-            cloneElement.style[key as any] =
-              originalStyle.getPropertyValue(key);
-          });
-
-          if (originalStyle.display === "flex") {
-            cloneElement.style.display = "flex";
-            cloneElement.style.justifyContent = originalStyle.justifyContent;
-            cloneElement.style.alignItems = originalStyle.alignItems;
-          }
-        }
-
-        container.appendChild(receiptClone);
-        document.body.appendChild(container);
-
-        const canvas = await html2canvas(container, {
+        const dataUrl = await domtoimage.toPng(receiptRef.current, {
           scale: 2,
-          useCORS: true,
-          logging: false,
-          allowTaint: true,
-          backgroundColor: "#ffffff",
-          windowHeight: container.scrollHeight,
-          height: container.scrollHeight,
-          onclone: (clonedDoc) => {
-            const style = clonedDoc.createElement("style");
-            style.textContent = `
-              @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap');
-              * { font-family: 'Bricolage Grotesque', sans-serif; }
-            `;
-            clonedDoc.head.appendChild(style);
-          },
+          bgcolor: "#ffffff",
         });
 
-        document.body.removeChild(container);
+        const img = new window.Image();
+        img.src = dataUrl;
 
-        const imgData = canvas.toDataURL("image/png", 1.0);
+        await new Promise((resolve) => (img.onload = resolve));
 
-        // Create PDF with proper dimensions
         const pdf = new jsPDF("p", "pt", "a4");
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        // Calculate the number of pages needed
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-
-        // Set a fixed width that fits the page with margins
-        const margin = 40;
+        const margin = 20;
         const availableWidth = pageWidth - 2 * margin;
-        const scaleFactor = availableWidth / imgWidth;
-        const scaledHeight = imgHeight * scaleFactor;
+        const scaleFactor = availableWidth / img.width;
+        const scaledHeight = img.height * scaleFactor;
 
-        // Split into multiple pages if needed
         let heightLeft = scaledHeight;
         let position = 0;
         let page = 1;
 
-        // First page
         pdf.addImage(
-          imgData,
+          dataUrl,
           "PNG",
           margin,
           position + margin,
           availableWidth,
-          scaledHeight
+          scaledHeight,
         );
         heightLeft -= pageHeight - 2 * margin;
 
-        // Add new pages if content exceeds page height
         while (heightLeft > 0) {
           pdf.addPage();
           page++;
           position = -(pageHeight - 2 * margin) * (page - 1);
-
           pdf.addImage(
-            imgData,
+            dataUrl,
             "PNG",
             margin,
             position + margin,
             availableWidth,
-            scaledHeight
+            scaledHeight,
           );
-
           heightLeft -= pageHeight - 2 * margin;
         }
 
@@ -171,7 +111,7 @@ export default function Transaction_success({
 
   const { isMobile, width } = useNavigation();
   const formatReceiptCourseSchedule = (
-    dates: Date | string | (Date | string)[]
+    dates: Date | string | (Date | string)[],
   ): JSX.Element => {
     // Format individual dates
     const formatDate = (date: Date | string): string => {
@@ -223,7 +163,7 @@ export default function Transaction_success({
 
       <div className="w-full flex flex-col justify-between">
         <div
-          className="w-full flex flex-col py-16"
+          className="w-full flex flex-col py-6"
           ref={receiptRef}
           style={{ pageBreakInside: copyingData ? "avoid" : "inherit" }}
         >
@@ -310,10 +250,10 @@ export default function Transaction_success({
                   {order.courseType && order.courseType.includes("Mentoring")
                     ? "Rejeses will contact you"
                     : order.courseSchedule &&
-                      order.courseScheduleType === "weekend"
-                    ? formatReceiptCourseSchedule(order.courseSchedule[0])
-                    : formatReceiptCourseSchedule(order.startDate || "N/A") ||
-                      "N/A"}
+                        order.courseScheduleType === "weekend"
+                      ? formatReceiptCourseSchedule(order.courseSchedule[0])
+                      : formatReceiptCourseSchedule(order.startDate || "N/A") ||
+                        "N/A"}
                 </span>
               </li>
             </div>
@@ -368,6 +308,9 @@ export default function Transaction_success({
               </li>
             </div>
           </div>
+          <small className="font-bold font-bricolage_grotesque px-1 mt-3">
+            Kindly note that all payments are final and non-refundable.
+          </small>
         </div>
 
         <button

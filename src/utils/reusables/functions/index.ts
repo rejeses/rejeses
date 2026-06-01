@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export function createEmailTemplate(
   name: string,
   email: string,
-  message: string
+  message: string,
 ) {
   return `
     <!DOCTYPE html>
@@ -121,7 +121,7 @@ export function createEmailTemplate(
                         margin: 0 0 10px 0;
                         font-size: 14px;
                         color: #666;
-                      ">© 2025 Rejeses Consult. All rights reserved.</p>
+                      ">© ${new Date().getFullYear()} Rejeses Consult. All rights reserved.</p>
                       <p style="
                         margin: 0;
                         font-size: 14px;
@@ -148,7 +148,7 @@ export function createEmailTemplate(
 export const getNextMondayDates = (
   count?: number,
   promoStartDate?: string,
-  promoEndDate?: string
+  promoEndDate?: string,
 ) => {
   const dates = [];
   if (count) {
@@ -242,12 +242,15 @@ export function createCourseEmailTemplate(
   currency: string,
   courseparticipants: { name: string; email: string }[],
   participant?: boolean,
-  isPayer?: boolean
+  isPayer?: boolean,
 ) {
   const fullName = `${firstName} ${lastName}`;
   const otherParticipants = courseparticipants.filter(
-    (p) => p.name.toLowerCase() !== fullName.toLowerCase()
+    (p) => p.name.toLowerCase() !== fullName.toLowerCase(),
   );
+
+  console.log("Server time now     :", new Date().toISOString());
+  console.log("YEAR CHECK:", new Date().getFullYear());
 
   const renderParticipantsSection = () => {
     if (isPayer) {
@@ -310,10 +313,10 @@ export function createCourseEmailTemplate(
       Thank you for registering for the <strong>${courseType}</strong> program.
     </p>`
     : participant
-    ? `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
+      ? `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
       You have been registered for the <strong>${courseType}</strong> program.
     </p>`
-    : `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
+      : `<p style="color: #666; font-weight: bold; font-size: 15px; margin-bottom: 15px;">
       Thank you for registering for the <strong>${courseType}</strong> program.
     </p>`;
 
@@ -327,8 +330,8 @@ export function createCourseEmailTemplate(
                 participant
                   ? `Course Payment on behalf of ${fullName}`
                   : isPayer
-                  ? `Course Registration Confirmation`
-                  : `Hello ${fullName}`
+                    ? `Course Registration Confirmation`
+                    : `Hello ${fullName}`
               }
             </h1>
           </div>
@@ -352,8 +355,8 @@ export function createCourseEmailTemplate(
                 courseType.includes("Mentoring")
                   ? "You will be contacted"
                   : courseScheduleType === "weekend"
-                  ? formatSingleDate(courseSchedule[0])
-                  : formatSingleDate(startDate)
+                    ? formatSingleDate(courseSchedule[0])
+                    : formatSingleDate(startDate)
               }
             </div>
 
@@ -362,7 +365,7 @@ export function createCourseEmailTemplate(
                 ? `
                   <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Schedule Type:</div>
                   <div style="margin-bottom: 15px; font-size: 15px;">${capitalizeCourseScheduleType(
-                    courseScheduleType
+                    courseScheduleType,
                   )}</div>
                 `
                 : ""
@@ -373,7 +376,7 @@ export function createCourseEmailTemplate(
                 ? `
                   <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Days:</div>
                   <div style="margin-bottom: 15px; font-size: 15px;">${formatCourseSchedule2(
-                    courseSchedule
+                    courseSchedule,
                   )}</div>
                 `
                 : ""
@@ -425,10 +428,79 @@ export function createCourseEmailTemplate(
 
           <!-- Footer -->
           <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
-            <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
+            <p style="margin: 5px 0;">© ${new Date().getFullYear()} Rejeses Consult. All rights reserved.</p>
             <p style="margin: 5px 0;">Need help? Contact us at <a href="mailto:info@rejeses.com" style="text-decoration: none;">info@rejeses.com</a></p>
             <p style="margin: 5px 0;"><a href="https://rejeses.com/" style="color: #89c13e; text-decoration: none;">Visit website</a></p>
           </div>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+// Add this function to your file: "@/utils/reusables/functions"
+// (right next to createCourseEmailTemplate — nothing else in that file needs to change)
+
+export function createAdminCoursePaymentNotification(
+  id: string | number,
+  reference: string,
+  firstName: string,
+  lastName: string,
+  customerEmail: string,
+  amount: number,
+  currency: string,
+  paidAt: string,
+  fees: number,
+) {
+  console.log("Server admin time now     :", new Date().toISOString());
+  console.log("ADMIN TEMPLATE YEAR:", new Date().getFullYear());
+
+  return `
+    <html>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
+        <div style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 30px;">
+          <div style="background-color: #89c13e; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; font-size: 20px;">
+            <h1 style="margin: 0;">Course Payment Notification</h1>
+          </div>
+          <div style="margin-top: 18px;">
+            <p style="margin-bottom: 15px; font-size: 15px;">
+              A customer has accessed the payment portal and their payment was successful. Below are the details:
+            </p>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment ID:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${id}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Reference:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${reference}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Name:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${firstName} ${lastName}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Email:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${customerEmail}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Amount Paid:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${
+              currency === "NGN" ? "NGN" : "$"
+            } ${formatPrice(amount / 100)}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment Date:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${new Date(
+              paidAt,
+            ).toLocaleString("en-GB")}</div>
+    
+            <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Payment Fees:</div>
+            <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${currency} ${formatPrice(
+              fees / 100,
+            )}</div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
+          <p style="margin: 5px 0;">© ${new Date().getFullYear()} Rejeses Consult. All rights reserved.</p>
+          <p style="margin: 5px 0;">
+            <a href="https://rejeses.com/" style="color: #89c13e; text-decoration: none;">Visit website</a>
+          </p>
         </div>
       </body>
     </html>
@@ -459,7 +531,7 @@ export function createPromoEmailTemplate(code: string, expiryDate: Date) {
               </div>
 
               <p style="font-size: 16px;">This code expires on <strong>${formatSingleDate(
-                expiryDate
+                expiryDate,
               )}</strong>.</p>
 
               <div style="background-color: #f9f9f9; border-left: 4px solid #074ca6; padding: 15px; margin-top: 20px; font-size: 15px;">
@@ -469,7 +541,7 @@ export function createPromoEmailTemplate(code: string, expiryDate: Date) {
 
             <!-- Footer -->
             <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
-              <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
+              <p style="margin: 5px 0;">© ${new Date().getFullYear()} Rejeses Consult. All rights reserved.</p>
               <p style="margin: 5px 0;">
                 <a href="https://rejeses.com/ style="color: #074ca6; text-decoration: none;">visit website</a>
               </p>
@@ -483,7 +555,7 @@ export function createPromoEmailTemplate(code: string, expiryDate: Date) {
 
 export function calculateClassSchedule(
   startDate: Date,
-  courseScheduleType: string
+  courseScheduleType: string,
 ): Date[] {
   // Handle weekday schedule
   if (courseScheduleType !== "weekend") {
@@ -628,7 +700,7 @@ export const notify = (message: string) =>
 // Function to get the appropriate email configuration based on environment
 export const getEmailConfig = (
   email: string,
-  password: string
+  password: string,
 ): EmailConfig => {
   if (process.env.NODE_ENV === "production") {
     return {

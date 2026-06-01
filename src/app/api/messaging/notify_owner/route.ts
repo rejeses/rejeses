@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     } catch (error) {
       return Response.json(
         { message: "Invalid JSON in request body" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     ) {
       return Response.json(
         { message: "Invalid request body" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,24 +75,6 @@ export async function POST(req: Request) {
     };
 
     const transporter = createTransporter();
-    // const mailOptions = {
-    //   from: `"Rejeses PM Consulting" <${email1}>`,
-    //   to: email,
-    //   subject: "Course Registration Confirmation",
-    //   html: createCourseEmailTemplate(
-    //     firstName,
-    //     lastName,
-    //     courseType,
-    //     startDate,
-    //     courseSchedule,
-    //     courseScheduleType,
-    //     amount,
-    //     currency,
-    //     participants as { name: string; email: string }[]
-    //   ),
-    // };
-
-    // await transporter.sendMail(mailOptions);
 
     const appOwnerEmailConfirmationContent = `
     <html>
@@ -127,7 +109,7 @@ export async function POST(req: Request) {
               !courseType.includes("Mentoring")
                 ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Schedule Type:</div>
                    <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${capitalizeCourseScheduleType(
-                     courseScheduleType
+                     courseScheduleType,
                    )}</div>`
                 : ""
             }
@@ -136,7 +118,7 @@ export async function POST(req: Request) {
               !courseType.includes("Mentoring")
                 ? `<div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Course Days:</div>
                    <div style="margin-bottom: 15px; word-wrap: break-word; font-size: 15px;">${formatCourseSchedule2(
-                     courseSchedule
+                     courseSchedule,
                    )}</div>`
                 : ""
             }
@@ -152,7 +134,8 @@ export async function POST(req: Request) {
             ${
               participants &&
               Array.isArray(participants) &&
-              participants.length > 0 && participants[0].name !== ""
+              participants.length > 0 &&
+              participants[0].name !== ""
                 ? `
                   <div style="color: #666; font-weight: bold; margin-bottom: 5px; font-size: 15px;">Participants:</div>
                   <ul style="margin-bottom: 15px; font-size: 15px; padding-left: 20px;">
@@ -168,7 +151,7 @@ export async function POST(req: Request) {
     
         <!-- Footer -->
         <div style="text-align: center; font-size: 14px; color: #666; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd;">
-          <p style="margin: 5px 0;">© 2025 Rejeses Consult. All rights reserved.</p>
+          <p style="margin: 5px 0;">© ${new Date().getFullYear()} Rejeses Consult. All rights reserved.</p>
           <p style="margin: 5px 0;">
             Need help? Contact us at 
             <a href="mailto:info@rejeses.com" text-decoration: none;">info@rejeses.com</a>
@@ -190,13 +173,13 @@ export async function POST(req: Request) {
 
     return Response.json(
       { message: "messages sent successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err) {
     console.log("error sending mail notification:", err);
     return Response.json(
       { message: "Error sending messages" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

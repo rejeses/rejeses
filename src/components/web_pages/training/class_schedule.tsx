@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image-more";
 import data from "@/utils/data/schedule.json";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +16,6 @@ import { usePayment } from "@/utils/context/payment";
 import { useNavigation } from "@/utils/context/payment";
 import { usePathname } from "next/navigation";
 import { notify } from "@/utils/reusables/functions";
-import data2 from "@/utils/data/training_data.json";
 
 const { days, times } = data as ScheduleData;
 
@@ -38,37 +37,59 @@ export default function ClassSchedule(props: SchedulePropsData) {
 
   const downloadPdf = async () => {
     if (scheduleRef.current) {
-      // Store the original overflow style
-      const originalOverflow = scheduleRef.current.style.overflow;
-      const originalWidth = scheduleRef.current.style.width;
+      try {
+        const dataUrl = await domtoimage.toPng(scheduleRef.current, {
+          scale: 2,
+          bgcolor: "#ffffff",
+        });
 
-      // Set overflow to visible to capture the entire content
-      scheduleRef.current.style.overflow = "visible";
-      scheduleRef.current.style.width = "fit-content";
+        const img = new window.Image();
+        img.src = dataUrl;
 
-      const canvas = await html2canvas(scheduleRef.current, {
-        scale: window.devicePixelRatio || 1,
-        useCORS: true,
-        logging: true,
-        scrollX: -window.scrollX,
-        scrollY: -window.scrollY,
-        windowWidth: document.documentElement.scrollWidth, // Set to full content width
-        windowHeight: document.documentElement.scrollHeight, // Set to full content height
-      });
+        await new Promise((resolve) => (img.onload = resolve));
 
-      // Restore the original overflow style
-      scheduleRef.current.style.overflow = originalOverflow;
-      scheduleRef.current.style.width = originalWidth;
+        const pdf = new jsPDF("landscape", "pt", "a4");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
 
-      const imgData = canvas.toDataURL("image/png");
+        const margin = 20;
+        const availableWidth = pageWidth - 2 * margin;
+        const scaleFactor = availableWidth / img.width;
+        const scaledHeight = img.height * scaleFactor;
 
-      const pdf = new jsPDF("landscape", "pt", "a4");
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        let heightLeft = scaledHeight;
+        let position = 0;
+        let page = 1;
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`Rejeses (${props.all.title}) training schedule`);
+        pdf.addImage(
+          dataUrl,
+          "PNG",
+          margin,
+          position + margin,
+          availableWidth,
+          scaledHeight,
+        );
+        heightLeft -= pageHeight - 2 * margin;
+
+        while (heightLeft > 0) {
+          pdf.addPage();
+          page++;
+          position = -(pageHeight - 2 * margin) * (page - 1);
+          pdf.addImage(
+            dataUrl,
+            "PNG",
+            margin,
+            position + margin,
+            availableWidth,
+            scaledHeight,
+          );
+          heightLeft -= pageHeight - 2 * margin;
+        }
+
+        pdf.save(`Rejeses (${props.all.title}) training schedule.pdf`);
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+      }
     }
   };
 
@@ -90,7 +111,7 @@ export default function ClassSchedule(props: SchedulePropsData) {
     .map((item) =>
       isNigeria
         ? Number(item.training_only?.price)
-        : Number(item.training_only?.price2)
+        : Number(item.training_only?.price2),
     )
     .filter((price) => !isNaN(price))[0];
 
@@ -98,7 +119,7 @@ export default function ClassSchedule(props: SchedulePropsData) {
     .map((item) =>
       isNigeria
         ? Number(item.training_only?.price2)
-        : Number(item.training_only?.price)
+        : Number(item.training_only?.price),
     )
     .filter((price) => !isNaN(price))[0];
 
@@ -132,21 +153,21 @@ export default function ClassSchedule(props: SchedulePropsData) {
         props.promo && selectedType === "training"
           ? "Project Management Training"
           : props.promo && selectedType === "training&mentoring"
-          ? "Project Management Training & Mentoring"
-          : "Project Management Training",
+            ? "Project Management Training & Mentoring"
+            : "Project Management Training",
       start_date: props.all.start_date,
       training_option: `You are subscribing to <b>rejeses consult</b> ${
         props.promo && selectedType === "training"
           ? "35-hour training plan"
           : props.promo && selectedType === "training&mentoring"
-          ? "35-hour training and mentoring plan"
-          : "35-hour training plan"
+            ? "35-hour training and mentoring plan"
+            : "35-hour training plan"
       }. You will be charged ${isNigeria ? "NGN " : "$"}${formatPrice(
         props.promo && isNigeria
           ? props.promoPrices?.nairaPrice
           : props.promo && !isNigeria
-          ? props.promoPrices?.dollarprice
-          : individualPrice2
+            ? props.promoPrices?.dollarprice
+            : individualPrice2,
       )} for this.`,
       is_group: false,
     }));
@@ -319,12 +340,12 @@ export default function ClassSchedule(props: SchedulePropsData) {
             ? formatPrice(
                 props.promo && pathname.includes("/promo")
                   ? props.promoPrices?.nairaPrice
-                  : individualPrice2
+                  : individualPrice2,
               ) || 0
             : formatPrice(
                 props.promo && pathname.includes("/promo")
                   ? props.promoPrices?.dollarprice
-                  : individualPrice
+                  : individualPrice,
               ) || 0}
         </Link>
         <button

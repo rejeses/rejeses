@@ -115,7 +115,6 @@ export default function PromoPage() {
     const selected = data.find((item) => item.id.toString() === trainingId);
     if (selected) {
       setSelectedTraining(selected);
-      console.log(selected, "here");
 
       if (mondayDate) {
         const formattedDate = mondayDate.toLocaleDateString("en-US", {
