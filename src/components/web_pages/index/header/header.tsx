@@ -162,7 +162,7 @@ export default function Header() {
             className="lg:text-2xl text-lg text-center max-w-[90%] lg:leading-[36px] leading-[28px]"
           >
             Everything from learning about project management to one-on-one
-            mentoring and even consultation,{" "}
+            mentoring and expert consultation,{" "}
             <motion.span
               className="font-bold font-bricolage_grotesque"
               whileHover={{ scale: 1.05 }}
@@ -233,7 +233,7 @@ export default function Header() {
           transition={{ duration: 1.2, delay: 0.6 }}
           className="text-lg text-center font-bricolage_grotesque text-[#5B5B5B]"
         >
-          Learn directly from people who have worked at such companies as
+          Learn directly from people who have worked at
         </motion.p>
 
         <AnimatePresence mode="wait">
