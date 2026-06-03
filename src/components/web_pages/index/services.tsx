@@ -53,7 +53,7 @@ export default function Services() {
               Our 35-hour training program is excellently designed to help you
               master the skills needed to become a seasoned project manager. 100%
               of those who train with us pass the prestigious Project Management
-              Professional (PMP) certification examination, on their first try!
+              Professional (PMP) certification examination on their first try!
             </p>
 
             <span className="text-white">
