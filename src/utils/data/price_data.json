@@ -6,7 +6,7 @@
         {
           "training_only": {
             "name": "Mentoring only",
-            "price": 400,
+            "price": 500,
             "price2": 500000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who only wish to be mentored",
@@ -17,7 +17,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
@@ -25,11 +25,11 @@
         {
           "training_with_mentorship": {
             "name": "Training & Mentoring",
-            "price": 550,
-            "price2": 670000,
+            "price": 650,
+            "price2": 650000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained and mentored",
-            "payment_summary": "You are subscribing to rejeses consult 35-hour training plus 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 35-hour training plus 1-month mentorship plan.",
             "extra_details": [
               "35-hour CAPM/PMP/PMI-ACP training",
               "450 exam practice questions",
@@ -39,7 +39,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
