@@ -10,7 +10,7 @@
             "price2": 500000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who only wish to be mentored",
-            "payment_summary": "You are subscribing to rejeses consult 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 1-month mentorship plan.",
             "extra_details": [
               "Access to PM templates",
               "Textbooks and guides",
@@ -31,7 +31,7 @@
             "payment_description": "For individuals who wish to be trained and mentored",
             "payment_summary": "You are subscribing to Rejeses Consult 35-hour training plus 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Access to PM templates",
@@ -54,14 +54,14 @@
             "amount_saved": 20,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who only wish to be mentored",
-            "payment_summary": "You are subscribing to rejeses consult 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 1-month mentorship plan.",
             "extra_details": [
               "Access to PM templates",
               "Textbooks and guides",
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
@@ -74,9 +74,9 @@
             "amount_saved": 20,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained and mentored",
-            "payment_summary": "You are subscribing to rejeses consult 35-hour training plus 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 35-hour training plus 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Access to PM templates",
@@ -84,7 +84,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
@@ -103,9 +103,9 @@
             "price2": 150000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who only wish to be trained",
-            "payment_summary": "You are subscribing to rejeses consult 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Textbooks and guides"
@@ -120,9 +120,9 @@
             "price2": 670000,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained and mentored",
-            "payment_summary": "You are subscribing to rejeses consult 35-hour training plus 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 35-hour training plus 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Access to PM templates",
@@ -130,7 +130,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
@@ -145,9 +145,9 @@
             "amount_saved": 50,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who only wish to be trained",
-            "payment_summary": "You are subscribing to rejeses consult 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Textbooks and guides"
@@ -163,9 +163,9 @@
             "amount_saved": 20,
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wish to be trained and mentored",
-            "payment_summary": "You are subscribing to rejeses consult 35-hour training plus 6-month mentorship plan.",
+            "payment_summary": "You are subscribing to Rejeses Consult 35-hour training plus 1-month mentorship plan.",
             "extra_details": [
-              "35-hour CAPM/PMP/PMI-ACP training",
+              "Full 35-hour PM Training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Access to PM templates",
@@ -173,7 +173,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
@@ -193,7 +193,7 @@
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wants to be mentored alone",
             "extra_details": [
-              "35-hour PMP/PMI-ACP training",
+              "Full 35-hour PM Training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Textbooks and guides"
@@ -209,7 +209,7 @@
             "payment_type": "Single Payment",
             "payment_description": "For individuals who wants to be mentored in groups",
             "extra_details": [
-              "35-hour PMP/PMI-ACP training",
+              "Full 35-hour PM Training",
               "450 exam practice questions",
               "Explanation of exam questions and answers",
               "Textbooks and guides",
@@ -217,7 +217,7 @@
               "Training on the use of some popular PM software",
               "Opportunity to connect with like-minded professionals",
               "Regular attention to real world issues on projects",
-              "Full mentorship for the first 3 months"
+              "Full mentorship for one month"
             ],
             "register_link": ""
           }
