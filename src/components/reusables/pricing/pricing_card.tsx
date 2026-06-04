@@ -145,7 +145,7 @@ export default function PriceCard({ data, id }: PriceCardProps) {
                           ? formatPrice(adjustedPrice)
                           : formatPrice(adjustedPrice)
                       } for this.`
-                    : `You are subscribing to <b>Rejeses Consult</b> 3-month mentoring plan. You will be charged ${
+                    : `You are subscribing to <b>Rejeses Consult</b> 1-month mentoring plan. You will be charged ${
                         isNigeria ? "NGN " : "$"
                       }${
                         isNigeria
@@ -219,7 +219,7 @@ export default function PriceCard({ data, id }: PriceCardProps) {
                 registerBtnClick(
                   training_with_mentorship.name,
                   training_with_mentorship.price,
-                  `You are subscribing to <b>Rejeses Consult</b> 35-hour training plus 3-month mentoring plan. You will be charged ${
+                  `You are subscribing to <b>Rejeses Consult</b> 35-hour training plus 1-month mentoring plan. You will be charged ${
                     isNigeria ? "NGN " : "$"
                   }${
                     isNigeria
