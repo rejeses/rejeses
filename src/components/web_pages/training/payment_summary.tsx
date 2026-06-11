@@ -21,7 +21,7 @@ export default function TrainingPayment({ pricingItem }: ClientPageProps) {
   const router = useRouter();
 
   const formatTrainingOption = (text: string) => {
-    return text.replace(/rejeses consult/gi, "<b>rejeses consult</b>");
+    return text.replace(/rejeses consult/gi, "<b>Rejeses Consult</b>");
   };
 
   const formatPaymentSummary = () => {
@@ -29,7 +29,7 @@ export default function TrainingPayment({ pricingItem }: ClientPageProps) {
     const { training_option } = paymentInfo;
 
     if (!training_option || training_option === "") {
-      return `You are subscribing to <b>rejeses consult</b> 35 hour training plan. You will be charged ${
+      return `You are subscribing to <b>Rejeses Consult</b> 35 hour training plan. You will be charged ${
         isNigeria ? "NGN " : "$"
       }${
         isNigeria
