@@ -231,7 +231,7 @@ export default function PromoPage() {
         start_date: prev.start_date || selectedTraining.start_date,
         training_option: `You are subscribing to <b>Rejeses Consult</b> ${
           selectedType === "mentoring"
-            ? "3-month mentoring plan"
+            ? "1-month mentoring plan"
             : selectedType === "training&mentoring"
             ? "35-hour training plus 1-month mentorship plan"
             : "35-hour training plan"
@@ -625,7 +625,7 @@ export default function PromoPage() {
                 Training + Mentoring
               </h3>
               <p className="text-gray-600 mb-6">
-                Complete package with 35-hour training and 3-month mentorship
+                Complete package with 35-hour training and 1-month mentorship
                 program.
               </p>
               <div className="flex items-center justify-between">
