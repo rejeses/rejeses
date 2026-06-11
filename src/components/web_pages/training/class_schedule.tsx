@@ -156,11 +156,11 @@ export default function ClassSchedule(props: SchedulePropsData) {
             ? "Project Management Training & Mentoring"
             : "Project Management Training",
       start_date: props.all.start_date,
-      training_option: `You are subscribing to <b>rejeses consult</b> ${
+      training_option: `You are subscribing to <b>Rejeses Consult</b> ${
         props.promo && selectedType === "training"
           ? "35-hour training plan"
           : props.promo && selectedType === "training&mentoring"
-            ? "35-hour training and mentoring plan"
+            ? "35-hour training and and 1-month mentoring plan"
             : "35-hour training plan"
       }. You will be charged ${isNigeria ? "NGN " : "$"}${formatPrice(
         props.promo && isNigeria
