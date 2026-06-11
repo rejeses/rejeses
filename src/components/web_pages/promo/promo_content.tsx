@@ -229,11 +229,11 @@ export default function PromoPage() {
             ? `${selectedTraining.title} & Mentoring`
             : `Project Management Training`,
         start_date: prev.start_date || selectedTraining.start_date,
-        training_option: `You are subscribing to <b>rejeses consult</b> ${
+        training_option: `You are subscribing to <b>Rejeses Consult</b> ${
           selectedType === "mentoring"
             ? "3-month mentoring plan"
             : selectedType === "training&mentoring"
-            ? "35-hour training plus 3-month mentorship plan"
+            ? "35-hour training plus 1-month mentorship plan"
             : "35-hour training plan"
         }. You will be charged ${isNigeria ? "NGN " : "$"}${formatPrice(
           price
@@ -458,7 +458,7 @@ export default function PromoPage() {
             variants={itemVariants}
           >
             Advance your career with our professional training programs and
-            mentoring at special promotional prices. Limited seats available.
+            mentoring at special promotional prices. Limited slots available.
           </motion.p>
 
           <motion.div
@@ -595,7 +595,7 @@ export default function PromoPage() {
                 Mentoring Only
               </h3>
               <p className="text-gray-600 mb-6">
-                3-month personalized mentoring program with industry experts.
+                1-month personalized mentoring program with industry experts.
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-[#4B006E] font-medium">Promo Price:</span>
