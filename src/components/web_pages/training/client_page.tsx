@@ -62,7 +62,7 @@ export default function Training_page() {
       original_price: individualPrice,
       original_price2: individualPrice2,
       training_id: trainingItem.id,
-      training_option: `You are subscribing to rejeses consult 4-week training plan. You will be charged ${
+      training_option: `You are subscribing to Rejeses Consult 35-hour training plan. You will be charged ${
         isNigeria ? "NGN " : "$"
       }${formatPrice(individualPrice2)} for this.`,
       is_group: false,
