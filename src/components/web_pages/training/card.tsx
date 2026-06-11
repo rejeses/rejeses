@@ -37,7 +37,7 @@ export default function Card(props: CardProps) {
       price2: Number(priceArray2),
       training_id: props.id2,
       start_date: props.date,
-      training_option: `You are subscribing to <b>rejeses consult</b> 35-hour training plan. You will be charged ${
+      training_option: `You are subscribing to <b>Rejeses Consult</b> 35-hour training plan. You will be charged ${
         isNigeria ? "NGN " : "$"
       }${
         isNigeria ? formatPrice(priceArray2) : formatPrice(priceArray)
