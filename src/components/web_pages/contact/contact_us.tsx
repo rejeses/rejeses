@@ -157,8 +157,8 @@ export default function ContactUs() {
               )}
               <p className="mt-4 text-lg text-gray-500">
                 We&apos;d love to hear from you! Whether you have a question
-                about our courses, need career advice, or want to make an
-                enquiry, we&apos;re here for you.
+                about our courses, need career advice, want to partner with us,
+                or anything else at all, we&apos;re here for you.
               </p>
               {isSubmitted && isSuccess ? (
                 <motion.div
