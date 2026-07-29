@@ -90,10 +90,14 @@ const BookSessionPage = () => {
             Why Book a Session?
           </h2>
           <p className="text-[#535353]">
-            Our expert consultations provide personalized insights and
-            strategies to help you achieve your goals. Whether you&apos;re
-            looking for career advice, business coaching, or personal
-            development, we&apos;re here to support you.
+            Our expert consultations provide personalized insights, strategic advisory
+            services, and collaborative partnership opportunities to help individuals,
+            schools, businesses, and government organizations achieve their goals.
+            <br /><br />
+            Whether you&apos;re looking for career guidance, project management expertise,
+            cybersecurity advisory, organizational transformation, educational
+            collaborations, or a trusted implementation partner, we&apos;re here to help you
+            build impactful, sustainable, and successful outcomes.
           </p>
           <ul className="space-y-2 text-[#535353]">
             <motion.li
@@ -102,7 +106,8 @@ const BookSessionPage = () => {
               transition={{ duration: 0.3, delay: 0.4 }}
               className="flex items-start"
             >
-              <span className="mr-2">⭐</span> One-on-one personalized attention
+              <span className="mr-2">⭐</span> Expert guidance from experienced 
+              project management and cybersecurity professionals
             </motion.li>
             <motion.li
               initial={{ opacity: 0, x: -20 }}
@@ -110,8 +115,8 @@ const BookSessionPage = () => {
               transition={{ duration: 0.3, delay: 0.5 }}
               className="flex items-start"
             >
-              <span className="mr-2">⭐</span> Tailored advice for your specific
-              situation
+              <span className="mr-2">⭐</span> Tailored strategies for individuals, 
+              schools, businesses, and government organizations
             </motion.li>
             <motion.li
               initial={{ opacity: 0, x: -20 }}
@@ -119,8 +124,8 @@ const BookSessionPage = () => {
               transition={{ duration: 0.3, delay: 0.6 }}
               className="flex items-start"
             >
-              <span className="mr-2">⭐</span> Actionable strategies you can
-              implement immediately
+              <span className="mr-2">⭐</span> Practical solutions and collaborative 
+              partnerships that deliver lasting impact
             </motion.li>
             <motion.li
               initial={{ opacity: 0, x: -20 }}
@@ -128,8 +133,8 @@ const BookSessionPage = () => {
               transition={{ duration: 0.3, delay: 0.7 }}
               className="flex items-start"
             >
-              <span className="mr-2">⭐</span> Follow-up support to ensure your
-              success
+              <span className="mr-2">⭐</span> Continued support to help you 
+              achieve sustainable success
             </motion.li>
           </ul>
         </motion.div>
